@@ -1,11 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import Button, { ButtonType, ButtonSize } from "./components/Button/button";
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <Button disabled>Hello</Button>
+        <Button type={ButtonType.Primary} size={ButtonSize.Large}>
+          Hello
+        </Button>
+        <Button type={ButtonType.Link} href="http://www.baidu.com">
+          Hello
+        </Button>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
