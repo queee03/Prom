@@ -16,25 +16,26 @@ export enum ButtonTypeMap {
 }
 
 // 定义参数属性
+type OriginButtonProps = React.ButtonHTMLAttributes<HTMLElement>;
+type OriginAnchorProps = React.AnchorHTMLAttributes<HTMLElement>;
 interface BaseButtonProps {
   className?: string;
   disabled?: boolean;
   size?: ButtonSize;
-  styleType?: ButtonType;
+  type?: ButtonType;
+  htmlType?: OriginButtonProps["type"];
   children: React.ReactNode;
   href?: string;
 }
 // 与原生属性交叉
-type NativeButtonProps = React.ButtonHTMLAttributes<HTMLElement> &
-  BaseButtonProps;
-type AnchorButtonProps = React.AnchorHTMLAttributes<HTMLElement> &
-  BaseButtonProps;
+type NativeButtonProps = Omit<OriginButtonProps, "type"> & BaseButtonProps; // Omit排除接口中指定的属性
+type AnchorButtonProps = OriginAnchorProps & BaseButtonProps;
 export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>; // Partial 将类型定义的所有属性都修改为可选。
 
 const Button: React.FC<ButtonProps> = (props) => {
   const {
     className,
-    styleType,
+    type,
     disabled,
     size,
     children,
@@ -42,11 +43,11 @@ const Button: React.FC<ButtonProps> = (props) => {
     ...restProps
   } = props;
   const classes = classNames("pm-button", className, {
-    [`pm-button-${ButtonTypeMap[styleType!]}`]: styleType,
+    [`pm-button-${ButtonTypeMap[type!]}`]: type,
     [`pm-button-${ButtonSizeMap[size!]}`]: size,
-    disabled: styleType === ButtonTypeMap.link && disabled,
+    disabled: type === ButtonTypeMap.link && disabled,
   });
-  if (styleType === ButtonTypeMap.link && href) {
+  if (type === ButtonTypeMap.link && href) {
     return (
       <a className={classes} href={href} {...restProps}>
         {children}
@@ -63,7 +64,7 @@ const Button: React.FC<ButtonProps> = (props) => {
 
 Button.defaultProps = {
   disabled: false,
-  styleType: ButtonTypeMap.default,
+  type: ButtonTypeMap.default,
 };
 
 export default Button;

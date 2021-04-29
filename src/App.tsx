@@ -6,16 +6,16 @@ function App() {
       <header className="App-header">
         <Button>Hello</Button>
         <Button disabled>disabled</Button>
-        <Button styleType="primary" size="large">
+        <Button type="primary" size="large">
           Large Button
         </Button>
-        <Button styleType="danger" size="small">
+        <Button type="danger" size="small">
           Small
         </Button>
-        <Button styleType="link" href="http://www.baidu.com">
+        <Button type="link" href="http://www.baidu.com">
           Link
         </Button>
-        <Button styleType="link" href="http://www.baidu.com" disabled>
+        <Button type="link" href="http://www.baidu.com" disabled>
           Link disabled
         </Button>
         <p>
