@@ -1,5 +1,5 @@
 import React from "react";
-import classnames from "classnames";
+// import classnames from "classnames";
 
 type MenuMode = "horizontal" | "vertical";
 export interface MenuProps {
@@ -10,4 +10,8 @@ export interface MenuProps {
   onSelect?: (selectedIndex: number) => void;
 }
 
-const Menu: React.FC<MenuProps> = (props) => {};
+const Menu: React.FC<MenuProps> = (props) => {
+  return <div>Menu</div>;
+};
+
+export default Menu;
