@@ -14,6 +14,7 @@
 // // If you want to start measuring performance in your app, pass a function
 // // to log results (for example: reportWebVitals(console.log))
 // // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// // https://www.jianshu.com/p/9d75592edb9e
 // reportWebVitals();
 
 export { default as Button } from "./components/Button";
