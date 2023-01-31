@@ -8,7 +8,7 @@ enum ButtonSizeMap {
 }
 
 export type ButtonType = "primary" | "default" | "danger" | "link";
-export enum ButtonTypeMap {
+enum ButtonTypeMap {
   primary = "primary",
   default = "default",
   danger = "danger",
@@ -33,15 +33,8 @@ type AnchorButtonProps = OriginAnchorProps & BaseButtonProps;
 export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>; // Partial 将类型定义的所有属性都修改为可选。
 
 const Button: React.FC<ButtonProps> = (props) => {
-  const {
-    className,
-    type,
-    disabled,
-    size,
-    children,
-    href,
-    ...restProps
-  } = props;
+  const { className, type, disabled, size, children, href, ...restProps } =
+    props;
   const classes = classNames("pm-button", className, {
     [`pm-button-${ButtonTypeMap[type!]}`]: type,
     [`pm-button-${ButtonSizeMap[size!]}`]: size,
