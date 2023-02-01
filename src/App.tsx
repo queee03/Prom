@@ -1,10 +1,15 @@
 // import React from "react";
-import Button from "./components/Button/button";
+import Button from "./components/Button";
+import Menu from "./components/Menu";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <Menu>
+          <Menu.Item index={0}>1</Menu.Item>
+          <Menu.Item index={1}>2</Menu.Item>
+        </Menu>
         <Button>Hello</Button>
         <Button disabled>disabled</Button>
         <Button type="primary" size="large">
@@ -19,18 +24,12 @@ function App() {
         <Button type="link" href="http://www.baidu.com" disabled>
           Link disabled
         </Button>
+      </header>
+      <body>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      </body>
     </div>
   );
 }
