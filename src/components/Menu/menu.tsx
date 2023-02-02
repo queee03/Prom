@@ -48,7 +48,7 @@ const Menu: React.FC<MenuProps> = ({
   };
 
   return (
-    <ul className={classes} {...props}>
+    <ul data-testid="test-pm-menu" className={classes} {...props}>
       <MenuContext.Provider value={passedContext}>
         {children}
       </MenuContext.Provider>

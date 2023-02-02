@@ -2,20 +2,20 @@ import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Button, { ButtonProps } from "./button";
 
-const defaultProps = {
+const testProps: ButtonProps = {
   onClick: jest.fn(), // 模拟函数
 };
 
 describe("test Button component", () => {
-  test("should render the correct default button", () => {
-    const wrapper = render(<Button {...defaultProps}>Nice</Button>);
+  test("should render the correct default Button", () => {
+    const wrapper = render(<Button {...testProps}>Nice</Button>);
     const ele = wrapper.getByText("Nice") as HTMLButtonElement;
     expect(ele).toBeInTheDocument();
     expect(ele.tagName).toEqual("BUTTON");
     expect(ele).toHaveClass("pm-button pm-button-default");
     expect(ele.disabled).toBeFalsy();
     userEvent.click(ele);
-    expect(defaultProps.onClick).toHaveBeenCalled();
+    expect(testProps.onClick).toHaveBeenCalled();
   });
 
   test("should render the correct component based on different props", () => {
@@ -43,7 +43,7 @@ describe("test Button component", () => {
 
   test("should render disabled button when disabled set to true", () => {
     const wrapper = render(
-      <Button {...defaultProps} disabled={true}>
+      <Button {...testProps} disabled={true}>
         Nice
       </Button>
     );
@@ -53,6 +53,6 @@ describe("test Button component", () => {
     expect(ele).not.toHaveClass("disabled");
     expect(ele.disabled).toBeTruthy();
     userEvent.click(ele);
-    expect(defaultProps.onClick).not.toHaveBeenCalled();
+    expect(testProps.onClick).not.toHaveBeenCalled();
   });
 });

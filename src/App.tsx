@@ -25,11 +25,11 @@ function App() {
           Link disabled
         </Button>
       </header>
-      <body>
+      {/* <body>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-      </body>
+      </body> */}
     </div>
   );
 }

@@ -13,7 +13,6 @@ const MenuItem: React.FC<MenuItemProps> = ({
   index,
   disabled,
   className,
-  children,
   ...props
 }) => {
   const context = useContext(MenuContext);
@@ -29,11 +28,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
     }
   };
 
-  return (
-    <li className={classes} {...props} onClick={handleClick}>
-      MenuItem
-    </li>
-  );
+  return <li className={classes} {...props} onClick={handleClick} />;
 };
 
 export default MenuItem;
