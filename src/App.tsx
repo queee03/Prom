@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Menu>
+        <Menu mode="horizontal">
           <Menu.Item index={0}>1</Menu.Item>
           <Menu.Item index={1}>2</Menu.Item>
         </Menu>

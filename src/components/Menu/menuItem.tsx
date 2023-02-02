@@ -19,8 +19,8 @@ const MenuItem: React.FC<MenuItemProps> = ({
   const context = useContext(MenuContext);
 
   const classes = classnames("pm-menu-item", className, {
-    "pm-menu-item-disabled": disabled,
-    "pm-menu-item-active": context.index === index,
+    "is-disabled": disabled,
+    "is-active": context.index === index,
   });
 
   const handleClick = () => {

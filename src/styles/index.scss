@@ -4,5 +4,10 @@
 @import "reboot";
 // mixins
 @import "mixins";
+
+// 为什么不能在组件内部导入？
+// https://git.imooc.com/coding-428/vikingship
 // Button
 @import "../components/Button/style";
+// Menu
+@import "../components/Menu/style";
