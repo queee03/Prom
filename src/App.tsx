@@ -7,8 +7,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Menu mode="horizontal">
-          <Menu.Item index={0}>1</Menu.Item>
-          <Menu.Item index={1}>2</Menu.Item>
+          <Menu.Item>1</Menu.Item>
+          <Menu.Item>2</Menu.Item>
         </Menu>
         <Button>Hello</Button>
         <Button disabled>disabled</Button>

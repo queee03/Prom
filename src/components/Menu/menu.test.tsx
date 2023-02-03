@@ -17,11 +17,10 @@ const testVerProps: MenuProps = {
 const generateMenu = (props: MenuProps) => {
   return (
     <Menu {...props}>
-      <Menu.Item index={0}>active</Menu.Item>
-      <Menu.Item index={1} disabled>
-        disabled
-      </Menu.Item>
-      <Menu.Item index={2}>prom</Menu.Item>
+      <Menu.Item>active</Menu.Item>
+      <Menu.Item disabled>disabled</Menu.Item>
+      <Menu.Item>prom</Menu.Item>
+      {/* <li>error</li> */}
     </Menu>
   );
 };

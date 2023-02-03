@@ -1,27 +1,17 @@
-import React, { createContext, useState } from "react";
+import React, { cloneElement, FunctionComponentElement, useState } from "react";
 import classnames from "classnames";
+import MenuContext, { MenuContextProps } from "./menuContext";
+import { MenuItemProps } from "./menuItem";
 
 type MenuMode = "horizontal" | "vertical";
-type OnSelectCallback = (selectedIndex: number) => void;
-
-interface IMenuContext {
-  index: number;
-  onSelect?: OnSelectCallback;
-}
-
-const DEFAULT_INDEX = 0;
 
 export interface MenuProps {
   defaultIndex?: number;
   mode?: MenuMode;
   className?: string;
   style?: React.CSSProperties;
-  onSelect?: OnSelectCallback;
+  onSelect?: (selectedIndex: number) => void;
 }
-
-export const MenuContext = createContext<IMenuContext>({
-  index: DEFAULT_INDEX,
-});
 
 const Menu: React.FC<MenuProps> = ({
   defaultIndex,
@@ -42,22 +32,37 @@ const Menu: React.FC<MenuProps> = ({
     onSelect?.(index);
   };
 
-  const passedContext: IMenuContext = {
-    index: currentActive || DEFAULT_INDEX,
+  const passedContext: MenuContextProps = {
+    index: currentActive || 0,
     onSelect: handleClick,
+  };
+
+  const renderChildren = () => {
+    // React.Children 提供了用于处理 props.children 不透明数据结构的实用方法
+    // https://zh-hans.reactjs.org/docs/react-api.html#reactchildren
+    return React.Children.map(children, (child, index) => {
+      const childElement = child as FunctionComponentElement<MenuItemProps>;
+      const { displayName } = childElement.type;
+      if (displayName !== "MenuItem") {
+        console.error(
+          "Warning: Menu has a child which is not a MenuItem component"
+        );
+      }
+      return cloneElement(childElement, { index });
+    });
   };
 
   return (
     <ul data-testid="test-pm-menu" className={classes} {...props}>
       <MenuContext.Provider value={passedContext}>
-        {children}
+        {renderChildren()}
       </MenuContext.Provider>
     </ul>
   );
 };
 
 Menu.defaultProps = {
-  defaultIndex: DEFAULT_INDEX,
+  defaultIndex: 0,
   mode: "horizontal",
 };
 
