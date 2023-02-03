@@ -23,8 +23,7 @@
     &.is-active,
     &:hover {
       color: $menu-item-active-color;
-      border-bottom: $menu-item-active-border-width solid
-        $menu-item-active-color;
+      border-bottom: $menu-item-active-border-width solid $menu-item-active-color;
     }
   }
 
@@ -74,10 +73,12 @@
       }
     }
   }
+
   .pm-submenu.menu-opened {
     //display: block;
   }
 }
+
 .pm-menu-horizontal {
   > .pm-menu-item {
     border-bottom: $menu-item-active-border-width solid transparent;

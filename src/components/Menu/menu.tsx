@@ -1,9 +1,11 @@
-import React, { cloneElement, FunctionComponentElement, useState } from "react";
-import classnames from "classnames";
-import MenuContext, { MenuContextProps } from "./menuContext";
-import { MenuItemProps } from "./menuItem";
+import React, { cloneElement, FunctionComponentElement, useState } from 'react';
 
-type MenuMode = "horizontal" | "vertical";
+import classnames from 'classnames';
+
+import MenuContext, { MenuContextProps } from './menuContext';
+import { MenuItemProps } from './menuItem';
+
+type MenuMode = 'horizontal' | 'vertical';
 
 export interface MenuProps {
   defaultIndex?: number;
@@ -23,9 +25,11 @@ const Menu: React.FC<MenuProps> = ({
 }) => {
   const [currentActive, setCurrentActive] = useState(defaultIndex);
 
-  const classes = classnames("pm-menu", className, {
-    "pm-menu-vertical": mode === "vertical",
-  });
+  const classes = classnames(
+    'pm-menu',
+    className,
+    mode === 'vertical' ? 'pm-menu-vertical' : 'pm-menu-horizontal',
+  );
 
   const handleClick = (index: number) => {
     setCurrentActive(index);
@@ -40,30 +44,26 @@ const Menu: React.FC<MenuProps> = ({
   const renderChildren = () => {
     // React.Children 提供了用于处理 props.children 不透明数据结构的实用方法
     // https://zh-hans.reactjs.org/docs/react-api.html#reactchildren
-    return React.Children.map(children, (child, index) => {
+    return React.Children.map(children, (child, i) => {
       const childElement = child as FunctionComponentElement<MenuItemProps>;
       const { displayName } = childElement.type;
-      if (displayName !== "MenuItem") {
-        console.error(
-          "Warning: Menu has a child which is not a MenuItem component"
-        );
+      if (displayName === 'MenuItem' || displayName === 'SubMenu') {
+        return cloneElement(childElement, { index: i });
       }
-      return cloneElement(childElement, { index });
+      console.error('Warning: Menu has a child which is not a MenuItem component');
     });
   };
 
   return (
     <ul data-testid="test-pm-menu" className={classes} {...props}>
-      <MenuContext.Provider value={passedContext}>
-        {renderChildren()}
-      </MenuContext.Provider>
+      <MenuContext.Provider value={passedContext}>{renderChildren()}</MenuContext.Provider>
     </ul>
   );
 };
 
 Menu.defaultProps = {
   defaultIndex: 0,
-  mode: "horizontal",
+  mode: 'horizontal',
 };
 
 export default Menu;

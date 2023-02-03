@@ -1,13 +1,13 @@
 // config
-@import "config.scss";
+@import 'config';
 // layout
-@import "reboot";
+@import 'reboot';
 // mixins
-@import "mixins";
+@import 'mixins';
 
 // 为什么不能在组件内部导入？
 
 // Button
-@import "../components/Button/style";
+@import '../components/Button/style';
 // Menu
-@import "../components/Menu/style";
+@import '../components/Menu/style';

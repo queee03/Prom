@@ -1,6 +1,8 @@
-import React, { useContext } from "react";
-import classnames from "classnames";
-import MenuContext from "./menuContext";
+import React, { useContext } from 'react';
+
+import classnames from 'classnames';
+
+import MenuContext from './menuContext';
 
 export interface MenuItemProps {
   index?: number;
@@ -9,22 +11,16 @@ export interface MenuItemProps {
   style?: React.CSSProperties;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({
-  className,
-  index,
-  disabled,
-  children,
-  ...props
-}) => {
+const MenuItem: React.FC<MenuItemProps> = ({ className, index, disabled, children, ...props }) => {
   const context = useContext(MenuContext);
 
-  const classes = classnames("pm-menu-item", className, {
-    "is-disabled": disabled,
-    "is-active": context.index === index,
+  const classes = classnames('pm-menu-item', className, {
+    'is-disabled': disabled,
+    'is-active': context.index === index,
   });
 
   const handleClick = () => {
-    if (context.onSelect && typeof index === "number") {
+    if (context.onSelect && typeof index === 'number') {
       if (!disabled) context.onSelect(index);
     }
   };
@@ -37,5 +33,5 @@ const MenuItem: React.FC<MenuItemProps> = ({
 };
 
 // React 内置的静态属性
-MenuItem.displayName = "MenuItem";
+MenuItem.displayName = 'MenuItem';
 export default MenuItem;
