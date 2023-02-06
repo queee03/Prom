@@ -18,10 +18,15 @@ const SubMenu: React.FC<SubMenuProps> = ({ index, title, className, children }) 
       ? context.defaultOpenSubMenus?.includes(index)
       : false;
   const [isOpened, setIsOpened] = useState(isDefaultOpen);
+  const isActive =
+    context.currentIndex === index ||
+    (typeof context.currentIndex === 'string'
+      ? context.currentIndex.split('-')[0] === index?.toString()
+      : false);
   let timer: NodeJS.Timeout | undefined;
 
   const classes = classnames('pm-menu-item pm-menu-submenu-item', className, {
-    'is-active': context.currentIndex === index,
+    'is-active': isActive,
   });
 
   const handleClick = (e: React.MouseEvent) => {
