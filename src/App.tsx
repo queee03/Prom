@@ -6,10 +6,14 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Menu mode="horizontal">
+        <Menu mode="horizontal" defaultOpenSubMenus={[0]}>
+          <Menu.SubMenu title="sub1">
+            <Menu.Item>Sub 1</Menu.Item>
+            <Menu.Item>Sub 2</Menu.Item>
+          </Menu.SubMenu>
           <Menu.Item>Main 1</Menu.Item>
-          <Menu.Item>Main 2</Menu.Item>
-          <Menu.SubMenu title="sub">
+          <Menu.Item disabled>Main 2</Menu.Item>
+          <Menu.SubMenu title="su2">
             <Menu.Item>Sub 1</Menu.Item>
             <Menu.Item>Sub 2</Menu.Item>
           </Menu.SubMenu>

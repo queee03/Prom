@@ -1,37 +1,78 @@
-import React, { cloneElement, FunctionComponentElement, useContext } from 'react';
+import React, { cloneElement, FunctionComponentElement, useContext, useState } from 'react';
 
 import classnames from 'classnames';
 
-import MenuContext from './menuContext';
+import MenuContext, { MenuIndex } from './menuContext';
 import { MenuItemProps } from './menuItem';
 
 export interface SubMenuProps {
-  index?: number;
+  index?: MenuIndex;
   title: string;
   className?: string;
 }
 
 const SubMenu: React.FC<SubMenuProps> = ({ index, title, className, children }) => {
   const context = useContext(MenuContext);
+  const isDefaultOpen =
+    context.mode === 'vertical' && (index || index === 0)
+      ? context.defaultOpenSubMenus?.includes(index)
+      : false;
+  const [isOpened, setIsOpened] = useState(isDefaultOpen);
+  let timer: NodeJS.Timeout | undefined;
+
   const classes = classnames('pm-menu-item pm-menu-submenu-item', className, {
-    'is-active': context.index === index,
+    'is-active': context.currentIndex === index,
   });
 
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsOpened(!isOpened);
+  };
+
+  const handleMouse = (e: React.MouseEvent, toggle: boolean) => {
+    clearTimeout(timer);
+    e.preventDefault();
+    // 增加 300 的延迟是为了鼠标移入 subMenu 的过程中保持菜单展开
+    timer = setTimeout(() => {
+      setIsOpened(toggle);
+    }, 300);
+  };
+
+  const clickEvents =
+    context.mode === 'vertical'
+      ? {
+          onClick: handleClick,
+        }
+      : {};
+
+  const hoverEvents =
+    context.mode !== 'vertical'
+      ? {
+          onMouseEnter: (e: React.MouseEvent) => handleMouse(e, true),
+          onMouseLeave: (e: React.MouseEvent) => handleMouse(e, false),
+        }
+      : {};
+
   const renderChildren = () => {
+    const subMenuClasses = classnames('pm-submenu', {
+      'is-opened': isOpened,
+    });
     const childrenComponent = React.Children.map(children, (child, i) => {
       const childElement = child as FunctionComponentElement<MenuItemProps>;
       const { displayName } = childElement.type;
       if (displayName === 'MenuItem') {
-        return cloneElement(childElement, { index: i });
+        return cloneElement(childElement, { index: `${index || 0}-${i}` });
       }
       console.error('Warning: Menu has a child which is not a MenuItem component');
     });
-    return <ul className="pm-submenu">{childrenComponent}</ul>;
+    return <ul className={subMenuClasses}>{childrenComponent}</ul>;
   };
 
   return (
-    <li className={classes} key={index}>
-      <div className="title">{title}</div>
+    <li className={classes} key={index} {...hoverEvents}>
+      <div className="title" {...clickEvents}>
+        {title}
+      </div>
       {renderChildren()}
     </li>
   );

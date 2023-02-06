@@ -2,24 +2,21 @@ import React, { cloneElement, FunctionComponentElement, useState } from 'react';
 
 import classnames from 'classnames';
 
-import MenuContext, { MenuContextProps } from './menuContext';
+import MenuContext, { MenuContextProps, MenuIndex } from './menuContext';
 import { MenuItemProps } from './menuItem';
 
-type MenuMode = 'horizontal' | 'vertical';
-
-export interface MenuProps {
-  defaultIndex?: number;
-  mode?: MenuMode;
+export interface MenuProps extends MenuContextProps {
+  defaultIndex?: MenuIndex;
   className?: string;
   style?: React.CSSProperties;
-  onSelect?: (selectedIndex: number) => void;
 }
 
 const Menu: React.FC<MenuProps> = ({
   defaultIndex,
-  mode,
   className,
   children,
+  mode,
+  defaultOpenSubMenus,
   onSelect,
   ...props
 }) => {
@@ -31,13 +28,15 @@ const Menu: React.FC<MenuProps> = ({
     mode === 'vertical' ? 'pm-menu-vertical' : 'pm-menu-horizontal',
   );
 
-  const handleClick = (index: number) => {
+  const handleClick = (index: MenuIndex) => {
     setCurrentActive(index);
     onSelect?.(index);
   };
 
   const passedContext: MenuContextProps = {
-    index: currentActive || 0,
+    currentIndex: currentActive || 0,
+    mode,
+    defaultOpenSubMenus,
     onSelect: handleClick,
   };
 
@@ -55,7 +54,7 @@ const Menu: React.FC<MenuProps> = ({
   };
 
   return (
-    <ul data-testid="test-pm-menu" className={classes} {...props}>
+    <ul data-testid="pm-menu" className={classes} {...props}>
       <MenuContext.Provider value={passedContext}>{renderChildren()}</MenuContext.Provider>
     </ul>
   );
@@ -64,6 +63,7 @@ const Menu: React.FC<MenuProps> = ({
 Menu.defaultProps = {
   defaultIndex: 0,
   mode: 'horizontal',
+  defaultOpenSubMenus: [],
 };
 
 export default Menu;
