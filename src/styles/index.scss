@@ -6,8 +6,9 @@
 @import 'mixins';
 
 // 为什么不能在组件内部导入？
-
 // Button
 @import '../components/Button/style';
 // Menu
 @import '../components/Menu/style';
+// Icon
+@import '../components/Icon/style';
