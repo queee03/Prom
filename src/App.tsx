@@ -1,14 +1,13 @@
-// import React from "react";
 import Button from './components/Button';
-import Menu from './components/Menu';
 import Icon from './components/Icon';
+import Menu from './components/Menu';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <Menu defaultOpenSubMenus={[2]}>
-          <Menu.Item>Main 1</Menu.Item>
+          <Menu.Item>Main 11</Menu.Item>
           <Menu.Item disabled>Main 2</Menu.Item>
           <Menu.SubMenu title="sub1">
             <Menu.Item>Sub 1</Menu.Item>

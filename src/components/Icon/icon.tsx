@@ -1,9 +1,10 @@
 import React from 'react';
-import classnames from 'classnames';
+
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
-// fas: 所有图标
+// fas = 所有图标
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
+import classnames from 'classnames';
 
 export type ThemeProps =
   | 'primary'
