@@ -1,4 +1,5 @@
 import React, { cloneElement, FunctionComponentElement, useContext, useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
 
 import classnames from 'classnames';
 import Icon from 'components/Icon';
@@ -73,7 +74,12 @@ const SubMenu: React.FC<SubMenuProps> = ({ index, title, className, children }) 
       }
       console.error('Warning: Menu has a child which is not a MenuItem component');
     });
-    return <ul className={subMenuClasses}>{childrenComponent}</ul>;
+
+    return (
+      <CSSTransition classNames="zoom-in-top" in={isOpened} timeout={300} appear unmountOnExit>
+        <ul className={subMenuClasses}>{childrenComponent}</ul>
+      </CSSTransition>
+    );
   };
 
   return (

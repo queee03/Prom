@@ -54,13 +54,13 @@
   }
 
   .pm-submenu {
-    display: none;
+    // display: none;
     list-style: none;
     padding-left: 0;
     white-space: nowrap;
     //transition: $menu-transition;
     &.is-opened {
-      display: block;
+      // display: block;
     }
 
     > .pm-menu-item {
