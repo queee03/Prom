@@ -38,9 +38,9 @@ const Button: React.FC<ButtonProps> = (props) => {
   const classes = classNames('pm-button', className, {
     [`pm-button-${ButtonTypeMap[type!]}`]: type,
     [`pm-button-${ButtonSizeMap[size!]}`]: size,
-    disabled: type === ButtonTypeMap.link && disabled,
+    disabled: type === 'link' && disabled,
   });
-  if (type === ButtonTypeMap.link && href) {
+  if (type === 'link' && href) {
     return (
       <a className={classes} href={href} {...restProps}>
         {children}
@@ -57,7 +57,7 @@ const Button: React.FC<ButtonProps> = (props) => {
 
 Button.defaultProps = {
   disabled: false,
-  type: ButtonTypeMap.default,
+  type: 'default',
 };
 
 export default Button;

@@ -1,11 +1,11 @@
-// animation
-@import 'animation';
 // config
 @import 'config';
-// layout
-@import 'reboot';
 // mixins
 @import 'mixins';
+// layout
+@import 'reboot';
+// animation
+@import 'animation';
 
 // 为什么不能在组件内部导入？
 // Button

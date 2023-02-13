@@ -6,7 +6,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 
-export type ThemeProps =
+export type ThemeType =
   | 'primary'
   | 'secondary'
   | 'success'
@@ -17,7 +17,7 @@ export type ThemeProps =
   | 'dark';
 
 export interface IconProps extends FontAwesomeIconProps {
-  theme?: ThemeProps;
+  theme?: ThemeType;
 }
 
 library.add(fas);
