@@ -8,10 +8,10 @@ enum ButtonSizeMap {
   small = 'sm',
 }
 
-export type ButtonType = 'primary' | 'default' | 'danger' | 'link';
+export type ButtonType = 'default' | 'primary' | 'danger' | 'link';
 enum ButtonTypeMap {
-  primary = 'primary',
   default = 'default',
+  primary = 'primary',
   danger = 'danger',
   link = 'link',
 }
