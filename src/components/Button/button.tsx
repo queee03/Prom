@@ -29,12 +29,19 @@ interface BaseButtonProps {
   href?: string;
 }
 // 与原生属性交叉
-type NativeButtonProps = Omit<OriginButtonProps, 'type'> & BaseButtonProps; // Omit排除接口中指定的属性
+type NativeButtonProps = Omit<OriginButtonProps, 'type' | 'disabled'> & BaseButtonProps; // Omit排除接口中指定的属性
 type AnchorButtonProps = OriginAnchorProps & BaseButtonProps;
 export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>; // Partial 将类型定义的所有属性都修改为可选。
 
-const Button: React.FC<ButtonProps> = (props) => {
-  const { className, type, disabled, size, children, href, ...restProps } = props;
+export const Button: React.FC<ButtonProps> = ({
+  className,
+  type,
+  disabled,
+  size,
+  children,
+  href,
+  ...props
+}) => {
   const classes = classNames('pm-button', className, {
     [`pm-button-${ButtonTypeMap[type!]}`]: type,
     [`pm-button-${ButtonSizeMap[size!]}`]: size,
@@ -42,13 +49,13 @@ const Button: React.FC<ButtonProps> = (props) => {
   });
   if (type === 'link' && href) {
     return (
-      <a className={classes} href={href} {...restProps}>
+      <a className={classes} href={href} {...props}>
         {children}
       </a>
     );
   } else {
     return (
-      <button className={classes} disabled={disabled} {...restProps}>
+      <button className={classes} disabled={disabled} {...props}>
         {children}
       </button>
     );
