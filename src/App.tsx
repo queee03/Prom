@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Menu mode="horizontal" defaultOpenSubMenus={[2]}>
+        <Menu mode="horizontal" defaultOpenSubMenus={['2']}>
           <Menu.Item>Main 1</Menu.Item>
           <Menu.Item disabled>Main 2</Menu.Item>
           <Menu.SubMenu title="Sub1">

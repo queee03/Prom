@@ -27,6 +27,15 @@ const Template: ComponentStory<typeof Menu> = (args) => (
 export const Default = Template.bind({});
 
 export const Vertical = Template.bind({});
+Vertical.storyName = '纵向 Menu';
 Vertical.args = {
   mode: 'vertical',
+};
+Vertical.parameters = {
+  backgrounds: {
+    values: [
+      { name: 'custom light', value: '#e6f7ff' },
+      { name: 'custom dark', value: '#002766' },
+    ],
+  },
 };
