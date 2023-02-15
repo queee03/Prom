@@ -21,6 +21,7 @@ type OriginButtonProps = React.ButtonHTMLAttributes<HTMLElement>;
 type OriginAnchorProps = React.AnchorHTMLAttributes<HTMLElement>;
 interface BaseButtonProps {
   className?: string;
+  /** disabled 注释测试 */
   disabled?: boolean;
   size?: ButtonSize;
   type?: ButtonType;
@@ -33,6 +34,13 @@ type NativeButtonProps = Omit<OriginButtonProps, 'type' | 'disabled'> & BaseButt
 type AnchorButtonProps = OriginAnchorProps & BaseButtonProps;
 export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>; // Partial 将类型定义的所有属性都修改为可选。
 
+/**
+ * [JSDoc 注释示例] 这是按钮组件
+ * ### 引用方法
+ * ```js
+ * import { Button } from 'prom';
+ * ```
+ */
 export const Button: React.FC<ButtonProps> = ({
   className,
   type,

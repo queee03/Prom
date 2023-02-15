@@ -25,6 +25,13 @@ const Template: ComponentStory<typeof Menu> = (args) => (
 );
 
 export const Default = Template.bind({});
+Default.decorators = [
+  (Story) => (
+    <div style={{ marginBottom: 100 }}>
+      <Story />
+    </div>
+  ),
+];
 
 export const Vertical = Template.bind({});
 Vertical.storyName = '纵向 Menu';
