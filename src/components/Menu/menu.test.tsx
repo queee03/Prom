@@ -5,14 +5,9 @@ import Menu from './index';
 import { MenuProps } from './menu';
 
 const testProps: MenuProps = {
-  defaultIndex: 0,
+  defaultIndex: '0',
   className: 'test',
   onSelect: jest.fn(),
-};
-
-const testVerProps: MenuProps = {
-  defaultIndex: 0,
-  mode: 'vertical',
 };
 
 const generateMenu = (props: MenuProps) => {
@@ -32,7 +27,8 @@ const generateMenu = (props: MenuProps) => {
 
 // test 不会读取 css 样式，需要手动模拟
 const createStyleFile = () => {
-  const cssFile: string = `
+  // 由于 SubMenu 已经修改了其展示/隐藏的方式，所以这个 CSS 其实已经不需要了，还留着是为了示范
+  const cssFile = `
     .pm-submenu {
       display: none;
     }
@@ -48,10 +44,10 @@ const createStyleFile = () => {
   return style;
 };
 
-let wrapper: RenderResult,
-  menuElement: HTMLElement,
-  activeElement: HTMLElement,
-  disabledElement: HTMLElement;
+let wrapper: RenderResult;
+let menuElement: HTMLElement;
+let activeElement: HTMLElement;
+let disabledElement: HTMLElement;
 
 describe('test Menu and MenuItem component', () => {
   beforeEach(() => {
@@ -78,34 +74,35 @@ describe('test Menu and MenuItem component', () => {
     userEvent.click(commonElement);
     expect(commonElement).toHaveClass('is-active');
     expect(activeElement).not.toHaveClass('is-active');
-    expect(testProps.onSelect).toHaveBeenCalledWith(2);
+    expect(testProps.onSelect).toHaveBeenCalledWith('2');
 
     userEvent.click(disabledElement);
     expect(disabledElement).not.toHaveClass('is-active');
-    expect(testProps.onSelect).not.toHaveBeenCalledWith(1);
+    expect(testProps.onSelect).not.toHaveBeenCalledWith('1');
   });
 
   test('should render vertical mode when mode is set to vertical', () => {
     cleanup();
-    const wrapper = render(generateMenu(testVerProps));
-    const menuElement = wrapper.getByTestId('pm-menu');
-    expect(menuElement).toHaveClass('pm-menu-vertical');
+    const verticalWrapper = render(generateMenu({ ...testProps, mode: 'vertical' }));
+    const verticalMenuElement = verticalWrapper.getByTestId('pm-menu');
+    expect(verticalMenuElement).toHaveClass('pm-menu-vertical');
   });
 
   test('should show dropdown items when hover on subMenu', async () => {
     const querySubElement = () => wrapper.queryByText('sub 1');
-    expect(querySubElement()).not.toBeVisible();
+    expect(querySubElement()).not.toBeInTheDocument();
 
     const dropdownElement = wrapper.getByText('sub');
     userEvent.hover(dropdownElement);
     await waitFor(() => {
+      expect(querySubElement()).toBeInTheDocument();
       expect(querySubElement()).toBeVisible();
     });
     userEvent.click(wrapper.getByText('sub 1'));
     expect(testProps.onSelect).toHaveBeenCalledWith('3-0');
     userEvent.unhover(dropdownElement);
     await waitFor(() => {
-      expect(querySubElement()).not.toBeVisible();
+      expect(querySubElement()).not.toBeInTheDocument();
     });
   });
 });

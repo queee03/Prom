@@ -16,14 +16,12 @@ export interface SubMenuProps {
 const SubMenu: React.FC<SubMenuProps> = ({ index, title, className, children }) => {
   const context = useContext(MenuContext);
   const isDefaultOpen =
-    context.mode === 'vertical' && (index || index === 0)
-      ? context.defaultOpenSubMenus?.includes(index)
-      : false;
+    context.mode === 'vertical' && index ? context.defaultOpenSubMenus?.includes(index) : false;
   const [isOpened, setIsOpened] = useState(isDefaultOpen);
   const isActive =
     context.currentIndex === index ||
     (typeof context.currentIndex === 'string'
-      ? context.currentIndex.split('-')[0] === index?.toString()
+      ? context.currentIndex.split('-')[0] === index
       : false);
   let timer: NodeJS.Timeout | undefined;
 

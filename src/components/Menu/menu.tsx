@@ -11,7 +11,7 @@ export interface MenuProps extends MenuContextProps {
   style?: React.CSSProperties;
 }
 
-const Menu: React.FC<MenuProps> = ({
+export const Menu: React.FC<MenuProps> = ({
   defaultIndex,
   className,
   children,
@@ -34,7 +34,7 @@ const Menu: React.FC<MenuProps> = ({
   };
 
   const passedContext: MenuContextProps = {
-    currentIndex: currentActive || 0,
+    currentIndex: currentActive || '0',
     mode,
     defaultOpenSubMenus,
     onSelect: handleClick,
@@ -47,7 +47,7 @@ const Menu: React.FC<MenuProps> = ({
       const childElement = child as FunctionComponentElement<MenuItemProps>;
       const { displayName } = childElement.type;
       if (displayName === 'MenuItem' || displayName === 'SubMenu') {
-        return cloneElement(childElement, { index: i });
+        return cloneElement(childElement, { index: i.toString() });
       }
       console.error('Warning: Menu has a child which is not a MenuItem component');
     });
@@ -61,7 +61,7 @@ const Menu: React.FC<MenuProps> = ({
 };
 
 Menu.defaultProps = {
-  defaultIndex: 0,
+  defaultIndex: '0',
   mode: 'horizontal',
   defaultOpenSubMenus: [],
 };

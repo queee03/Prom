@@ -21,7 +21,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ className, index, disabled, childre
 
   const handleClick = () => {
     if (disabled) return;
-    if (context.onSelect && (index || index === 0)) {
+    if (context.onSelect && index) {
       context.onSelect(index);
     }
   };
