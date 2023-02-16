@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
+import mdx from './button.mdx';
 import Button from './index';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -8,6 +9,11 @@ const Com: ComponentMeta<typeof Button> = {
   component: Button,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {},
+  parameters: {
+    docs: {
+      page: mdx,
+    },
+  },
 };
 export default Com;
 

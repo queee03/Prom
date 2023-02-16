@@ -1,0 +1,18 @@
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import Button from './components/Button';
+
+export const Template = (args) => <Button {...args}></Button>;
+
+<Meta title="MDX"></Meta>
+
+<Canvas>
+  <Story
+    name="用 MDX 写组件文档"
+    args={{
+      children: 'default button',
+    }}
+  >
+    {Template.bind()}
+  </Story>
+</Canvas>
