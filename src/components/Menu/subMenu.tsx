@@ -73,6 +73,8 @@ const SubMenu: React.FC<SubMenuProps> = ({ index, title, className, children }) 
       console.error('Warning: Menu has a child which is not a MenuItem component');
     });
 
+    if (context.mode === 'vertical') return <ul className={subMenuClasses}>{childrenComponent}</ul>;
+
     return (
       <Transition animation="zoom-in-top" in={isOpened} timeout={300}>
         <ul className={subMenuClasses}>{childrenComponent}</ul>

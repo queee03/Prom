@@ -46,9 +46,16 @@
       }
     }
 
-    &.is-vertical.is-opened {
-      .arrow-icon {
-        transform: rotate(180deg);
+    &.is-vertical {
+      max-height: 40px;
+      transition: $menu-transition, max-height 0.3s ease-in-out;
+      overflow: hidden;
+      &.is-opened {
+        max-height: 1000px;
+
+        .arrow-icon {
+          transform: rotate(180deg);
+        }
       }
     }
   }
