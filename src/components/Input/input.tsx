@@ -10,8 +10,8 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLElement>,
   append?: string | React.ReactElement;
 }
 
-export const Input: React.FC<InputProps> = () => {
-  return <>1</>;
+export const Input: React.FC<InputProps> = ({ disabled }) => {
+  return <input disabled={disabled} />;
 };
 
 export default Input;
