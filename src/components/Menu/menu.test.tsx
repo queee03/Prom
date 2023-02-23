@@ -29,11 +29,11 @@ const generateMenu = (props: MenuProps) => {
 const createStyleFile = () => {
   // 由于 SubMenu 已经修改了其展示/隐藏的方式，所以这个 CSS 其实已经不需要了，还留着是为了示范
   const cssFile = `
-    .pm-submenu {
+    .#{$pm-prefix}-submenu {
       display: none;
     }
 
-    .pm-submenu.is-opened {
+    .#{$pm-prefix}-submenu.is-opened {
       display: block；
     }
   `;

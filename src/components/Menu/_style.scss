@@ -1,4 +1,4 @@
-.pm-menu {
+.#{$pm-prefix}-menu {
   display: flex;
   flex-wrap: wrap;
   padding-left: 0;
@@ -6,7 +6,7 @@
   list-style: none;
   border-bottom: $menu-border-width solid $menu-border-color;
   box-shadow: $menu-box-shadow;
-  > .pm-menu-item {
+  > .#{$pm-prefix}-menu-item {
     padding: $menu-item-padding-y $menu-item-padding-x;
     cursor: pointer;
     transition: $menu-transition;
@@ -27,7 +27,7 @@
     }
   }
 
-  .pm-menu-submenu-item {
+  .#{$pm-prefix}-menu-submenu-item {
     position: relative;
     .title {
       display: flex;
@@ -60,7 +60,7 @@
     }
   }
 
-  .pm-submenu {
+  .#{$pm-prefix}-submenu {
     // display: none;
     list-style: none;
     padding-left: 0;
@@ -70,7 +70,7 @@
       // display: block;
     }
 
-    > .pm-menu-item {
+    > .#{$pm-prefix}-menu-item {
       padding: $menu-item-padding-y $menu-item-padding-x;
       cursor: pointer;
       transition: $menu-transition;
@@ -83,11 +83,11 @@
   }
 }
 
-.pm-menu-horizontal {
-  > .pm-menu-item {
+.#{$pm-prefix}-menu-horizontal {
+  > .#{$pm-prefix}-menu-item {
     border-bottom: $menu-item-active-border-width solid transparent;
   }
-  .pm-submenu {
+  .#{$pm-prefix}-submenu {
     position: absolute;
     background: $white;
     z-index: 100;
@@ -98,12 +98,12 @@
   }
 }
 
-.pm-menu-vertical {
+.#{$pm-prefix}-menu-vertical {
   flex-direction: column;
   border-bottom: 0px;
   margin: 10px 20px;
   border-right: $menu-border-width solid $menu-border-color;
-  > .pm-menu-item {
+  > .#{$pm-prefix}-menu-item {
     border-left: $menu-item-active-border-width solid transparent;
     &.is-active,
     &:hover {
