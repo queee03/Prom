@@ -11,10 +11,8 @@ export default Com;
 const Template: ComponentStory<typeof Input> = (args) => <Input {...args}></Input>;
 
 export const Default = Template.bind({});
-Default.decorators = [
-  (Story) => (
-    <div style={{ marginBottom: 100 }}>
-      <Story />
-    </div>
-  ),
-];
+Default.args = {
+  prepend: 'pre',
+  append: 'app',
+  // icon: 'coffee',
+};
