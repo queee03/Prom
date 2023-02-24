@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
 import classnames from 'classnames';
+import { PM_PREFIX_CLS } from 'configs/constant';
 
 import MenuContext, { MenuIndex } from './menuContext';
 
@@ -14,7 +15,7 @@ export interface MenuItemProps {
 const MenuItem: React.FC<MenuItemProps> = ({ className, index, disabled, children, ...props }) => {
   const context = useContext(MenuContext);
 
-  const classes = classnames('pm-menu-item', className, {
+  const classes = classnames(`${PM_PREFIX_CLS}-menu-item`, className, {
     'is-disabled': disabled,
     'is-active': context.currentIndex === index,
   });

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import { PM_PREFIX_CLS } from 'configs/constant';
 
 export type ButtonSize = 'large' | 'small';
 enum ButtonSizeMap {
@@ -50,9 +51,9 @@ export const Button: React.FC<ButtonProps> = ({
   href,
   ...props
 }) => {
-  const classes = classNames('pm-button', className, {
-    [`pm-button-${ButtonTypeMap[type!]}`]: type,
-    [`pm-button-${ButtonSizeMap[size!]}`]: size,
+  const classes = classNames(`${PM_PREFIX_CLS}-button`, className, {
+    [`${PM_PREFIX_CLS}-button-${ButtonTypeMap[type!]}`]: type,
+    [`${PM_PREFIX_CLS}-button-${ButtonSizeMap[size!]}`]: size,
     disabled: type === 'link' && disabled,
   });
   if (type === 'link' && href) {

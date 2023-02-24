@@ -1,5 +1,6 @@
 import { cleanup, render, RenderResult, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { PM_PREFIX_CLS } from 'configs/constant';
 
 import Menu from './index';
 import { MenuProps } from './menu';
@@ -53,19 +54,19 @@ describe('test Menu and MenuItem component', () => {
   beforeEach(() => {
     wrapper = render(generateMenu(testProps));
     wrapper.container.append(createStyleFile());
-    menuElement = wrapper.getByTestId('pm-menu');
+    menuElement = wrapper.getByTestId(`${PM_PREFIX_CLS}-menu`);
     activeElement = wrapper.getByText('active');
     disabledElement = wrapper.getByText('disabled');
   });
 
   test('should render the correct Menu and MenuItem based on default props', () => {
     expect(menuElement).toBeInTheDocument();
-    expect(menuElement).toHaveClass('pm-menu test');
+    expect(menuElement).toHaveClass(`${PM_PREFIX_CLS}-menu test`);
     // expect(menuElement.getElementsByTagName('li').length).toEqual(4); // 6
     // https://developer.mozilla.org/zh-CN/docs/Web/CSS/:scope
     expect(menuElement.querySelectorAll(':scope > li').length).toEqual(4);
-    expect(activeElement).toHaveClass('pm-menu-item is-active');
-    expect(disabledElement).toHaveClass('pm-menu-item is-disabled');
+    expect(activeElement).toHaveClass(`${PM_PREFIX_CLS}-menu-item is-active`);
+    expect(disabledElement).toHaveClass(`${PM_PREFIX_CLS}-menu-item is-disabled`);
   });
 
   test('click items should change active and call the right callback', () => {
@@ -84,8 +85,8 @@ describe('test Menu and MenuItem component', () => {
   test('should render vertical mode when mode is set to vertical', () => {
     cleanup();
     const verticalWrapper = render(generateMenu({ ...testProps, mode: 'vertical' }));
-    const verticalMenuElement = verticalWrapper.getByTestId('pm-menu');
-    expect(verticalMenuElement).toHaveClass('pm-menu-vertical');
+    const verticalMenuElement = verticalWrapper.getByTestId(`${PM_PREFIX_CLS}-menu`);
+    expect(verticalMenuElement).toHaveClass(`${PM_PREFIX_CLS}-menu-vertical`);
   });
 
   test('should show dropdown items when hover on subMenu', async () => {

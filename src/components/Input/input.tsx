@@ -1,4 +1,5 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import classnames from 'classnames';
 
 type InputSize = 'lg' | 'sm';
 
@@ -11,6 +12,7 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLElement>,
 }
 
 export const Input: React.FC<InputProps> = ({ disabled }) => {
+  const classes = classnames();
   return <input disabled={disabled} />;
 };
 

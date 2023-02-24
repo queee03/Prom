@@ -1,6 +1,7 @@
 import React, { cloneElement, FunctionComponentElement, useState } from 'react';
 
 import classnames from 'classnames';
+import { PM_PREFIX_CLS } from 'configs/constant';
 
 import MenuContext, { MenuContextProps, MenuIndex } from './menuContext';
 import { MenuItemProps } from './menuItem';
@@ -23,9 +24,9 @@ export const Menu: React.FC<MenuProps> = ({
   const [currentActive, setCurrentActive] = useState(defaultIndex);
 
   const classes = classnames(
-    'pm-menu',
+    `${PM_PREFIX_CLS}-menu`,
     className,
-    mode === 'vertical' ? 'pm-menu-vertical' : 'pm-menu-horizontal',
+    mode === 'vertical' ? `${PM_PREFIX_CLS}-menu-vertical` : `${PM_PREFIX_CLS}-menu-horizontal`,
   );
 
   const handleClick = (index: MenuIndex) => {

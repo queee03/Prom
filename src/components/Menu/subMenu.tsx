@@ -3,6 +3,7 @@ import React, { cloneElement, FunctionComponentElement, useContext, useState } f
 import classnames from 'classnames';
 import Icon from 'components/Icon';
 import Transition from 'components/Transition';
+import { PM_PREFIX_CLS } from 'configs/constant';
 
 import MenuContext, { MenuIndex } from './menuContext';
 import { MenuItemProps } from './menuItem';
@@ -25,7 +26,7 @@ const SubMenu: React.FC<SubMenuProps> = ({ index, title, className, children }) 
       : false);
   let timer: NodeJS.Timeout | undefined;
 
-  const classes = classnames('pm-menu-item pm-menu-submenu-item', className, {
+  const classes = classnames(`${PM_PREFIX_CLS}-menu-item pm-menu-submenu-item`, className, {
     'is-active': isActive,
     'is-opened': isOpened,
     'is-vertical': context.mode === 'vertical',
@@ -61,7 +62,7 @@ const SubMenu: React.FC<SubMenuProps> = ({ index, title, className, children }) 
       : {};
 
   const renderChildren = () => {
-    const subMenuClasses = classnames('pm-submenu', {
+    const subMenuClasses = classnames(`${PM_PREFIX_CLS}-submenu`, {
       'is-opened': isOpened,
     });
     const childrenComponent = React.Children.map(children, (child, i) => {
