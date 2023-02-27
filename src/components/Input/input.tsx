@@ -4,10 +4,11 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classnames from 'classnames';
 import Icon from 'components/Icon';
 import { PM_PREFIX_CLS } from 'configs/constant';
+import { hasValue } from 'utils';
 
 type InputSize = 'lg' | 'sm';
 type PendType = string | React.ReactElement;
-export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLElement>, 'size'> {
+export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   disabled?: boolean;
   size?: InputSize;
   icon?: IconProp;
@@ -30,12 +31,12 @@ export const Input: React.FC<InputProps> = ({
     [`${PM_PREFIX_CLS}-group-append`]: append,
   });
 
-  // const pendComponent = (pend: PendType, pendProps?: React.HTMLAttributes<HTMLElement>) => {
-  //   if (typeof pend === 'string') {
-  //     return <div {...pendProps}>{pend}</div>;
-  //   }
-  //   return cloneElement(pend, pendProps);
-  // };
+  const fixControlledValue = (value?) => {
+    if (hasValue(value)) return value;
+    return '';
+  };
+
+  // props.value = fixControlledValue(props.value);
 
   return (
     <div className={classes}>
