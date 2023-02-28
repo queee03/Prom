@@ -36,7 +36,7 @@ export const Input: React.FC<InputProps> = ({
     return '';
   };
 
-  // props.value = fixControlledValue(props.value);
+  const value = fixControlledValue(props.value);
 
   return (
     <div className={classes}>
@@ -46,7 +46,12 @@ export const Input: React.FC<InputProps> = ({
           <Icon icon={icon} />
         </div>
       )}
-      <input className={`${PM_PREFIX_CLS}-input-inner`} disabled={disabled} {...props} />
+      <input
+        className={`${PM_PREFIX_CLS}-input-inner`}
+        value={value}
+        disabled={disabled}
+        {...props}
+      />
       {append && <div className={`${PM_PREFIX_CLS}-input-group-append`}>{append}</div>}
     </div>
   );
