@@ -51,6 +51,7 @@ let activeElement: HTMLElement;
 let disabledElement: HTMLElement;
 
 describe('test Menu and MenuItem component', () => {
+  // https://www.jestjs.cn/docs/api#beforeeachfn-timeout
   beforeEach(() => {
     wrapper = render(generateMenu(testProps));
     wrapper.container.append(createStyleFile());
@@ -83,7 +84,8 @@ describe('test Menu and MenuItem component', () => {
   });
 
   test('should render vertical mode when mode is set to vertical', () => {
-    cleanup();
+    // https://testing-library.com/docs/svelte-testing-library/api/#cleanup
+    cleanup(); // 否则: Found multiple elements by: [data-testid="pm-menu"]
     const verticalWrapper = render(generateMenu({ ...testProps, mode: 'vertical' }));
     const verticalMenuElement = verticalWrapper.getByTestId(`${PM_PREFIX_CLS}-menu`);
     expect(verticalMenuElement).toHaveClass(`${PM_PREFIX_CLS}-menu-vertical`);

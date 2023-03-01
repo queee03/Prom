@@ -28,7 +28,7 @@ const Icon: React.FC<IconProps> = ({ className, theme, ...props }) => {
     [`${PM_PREFIX_CLS}-icon-${theme}`]: theme,
   });
 
-  return <FontAwesomeIcon className={classes} {...props} />;
+  return <FontAwesomeIcon data-testid={`${PM_PREFIX_CLS}-icon`} className={classes} {...props} />;
 };
 
 export default Icon;

@@ -3,6 +3,9 @@
   width: 100%;
   margin-bottom: 30px;
   position: relative;
+  border: $input-border-width solid $input-group-addon-border-color;
+  border-radius: $input-border-radius;
+  overflow: hidden;
   .icon-wrapper {
     position: absolute;
     height: 100%;
@@ -31,11 +34,8 @@
   color: $input-color;
   background-color: $input-bg;
   background-clip: padding-box;
-  border: $input-border-width solid $input-border-color;
-
-  // Note: This has no effect on <select>s in some browsers, due to the limited stylability of `<select>`s in CSS.
-  border-radius: $input-border-radius;
-
+  border: none;
+  border-radius: 0;
   box-shadow: $input-box-shadow;
   transition: $input-transition;
 
@@ -73,21 +73,20 @@
   text-align: center;
   white-space: nowrap;
   background-color: $input-group-addon-bg;
-  border: $input-border-width solid $input-group-addon-border-color;
-  border-radius: $input-border-radius;
+  border: 0;
 }
+
+.#{$pm-prefix}-input-group-prepend {
+  border-right: $input-border-width solid $input-group-addon-border-color;
+}
+
+.#{$pm-prefix}-input-group-append {
+  border-left: $input-border-width solid $input-group-addon-border-color;
+}
+
 .#{$pm-prefix}-input-group-append + .btn {
   padding: 0;
   border: 0;
-}
-.#{$pm-prefix}-group > .#{$pm-prefix}-input-group-prepend,
-.#{$pm-prefix}-group.#{$pm-prefix}-group-append > .#{$pm-prefix}-input-inner {
-  @include border-right-radius(0);
-}
-
-.#{$pm-prefix}-group > .#{$pm-prefix}-input-group-append,
-.#{$pm-prefix}-group.#{$pm-prefix}-group-prepend > .#{$pm-prefix}-input-inner {
-  @include border-left-radius(0);
 }
 
 .#{$pm-prefix}-size-sm .#{$pm-prefix}-input-inner {

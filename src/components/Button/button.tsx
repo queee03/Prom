@@ -75,5 +75,5 @@ Button.defaultProps = {
   disabled: false,
   type: 'default',
 };
-
+Button.displayName = 'Button';
 export default Button;

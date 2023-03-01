@@ -20,9 +20,7 @@ export const Input: React.FC<InputProps> = (props) => {
   const { disabled, size, icon, prepend, append, ...restProps } = props;
   const classes = classnames(`${PM_PREFIX_CLS}-input-wrapper`, {
     [`${PM_PREFIX_CLS}-size-${size}`]: size,
-    [`${PM_PREFIX_CLS}-group`]: prepend || append,
-    [`${PM_PREFIX_CLS}-group-prepend`]: prepend,
-    [`${PM_PREFIX_CLS}-group-append`]: append,
+    [`${PM_PREFIX_CLS}-input-group`]: prepend || append,
   });
 
   const fixControlledValue = (value?) => {
@@ -37,7 +35,7 @@ export const Input: React.FC<InputProps> = (props) => {
   }
 
   return (
-    <div className={classes}>
+    <div data-testid={`${PM_PREFIX_CLS}-input`} className={classes}>
       {prepend && <div className={`${PM_PREFIX_CLS}-input-group-prepend`}>{prepend}</div>}
       {icon && (
         <div className="icon-wrapper">
@@ -50,4 +48,5 @@ export const Input: React.FC<InputProps> = (props) => {
   );
 };
 
+Input.displayName = 'Input';
 export default Input;
