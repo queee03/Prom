@@ -16,14 +16,8 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   append?: PendType;
 }
 
-export const Input: React.FC<InputProps> = ({
-  disabled,
-  size,
-  icon,
-  prepend,
-  append,
-  ...props
-}) => {
+export const Input: React.FC<InputProps> = (props) => {
+  const { disabled, size, icon, prepend, append, ...restProps } = props;
   const classes = classnames(`${PM_PREFIX_CLS}-input-wrapper`, {
     [`${PM_PREFIX_CLS}-size-${size}`]: size,
     [`${PM_PREFIX_CLS}-group`]: prepend || append,
@@ -36,7 +30,11 @@ export const Input: React.FC<InputProps> = ({
     return '';
   };
 
-  const value = fixControlledValue(props.value);
+  if ('value' in props) {
+    // 不可同时存在 value 和 defaultValue, 前者意味着组件受控, 此时 defaultValue 不应该生效
+    delete restProps.defaultValue;
+    restProps.value = fixControlledValue(props.value);
+  }
 
   return (
     <div className={classes}>
@@ -46,12 +44,7 @@ export const Input: React.FC<InputProps> = ({
           <Icon icon={icon} />
         </div>
       )}
-      <input
-        className={`${PM_PREFIX_CLS}-input-inner`}
-        value={value}
-        disabled={disabled}
-        {...props}
-      />
+      <input className={`${PM_PREFIX_CLS}-input-inner`} disabled={disabled} {...restProps} />
       {append && <div className={`${PM_PREFIX_CLS}-input-group-append`}>{append}</div>}
     </div>
   );

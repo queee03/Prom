@@ -4,26 +4,56 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import Input from './index';
 
-// 受控组件
-const ControlledInput = () => {
-  const [value, setValue] = useState<string>();
-  return <Input value={value} onChange={(e) => setValue(e.target.value)}></Input>;
-};
-
 const Com: ComponentMeta<typeof Input> = {
   title: 'Input',
   component: Input,
+  decorators: [(Story) => <div style={{ width: 350 }}>{Story()}</div>],
 };
 export default Com;
 
-// const Template: ComponentStory<typeof Input> = (args) => <Input {...args}></Input>;
-const Template: ComponentStory<typeof Input> = (args) => (
-  <ControlledInput {...args}></ControlledInput>
-);
+const Template: ComponentStory<typeof Input> = (args) => <Input {...args}></Input>;
+// const Template: ComponentStory<typeof Input> = (args) => (
+//   <ControlledInput {...args}></ControlledInput>
+// );
 
 export const Default = Template.bind({});
-Default.args = {
-  prepend: 'pre',
-  // append: 'app',
-  // icon: 'coffee',
+Default.storyName = '基本使用';
+
+export const Disabled = Template.bind({});
+Default.storyName = '被禁用的';
+
+export const Size = () => (
+  <>
+    <Input defaultValue="large size" size="lg" />
+    <Input defaultValue="normal size" />
+    <Input defaultValue="small size" size="sm" />
+  </>
+);
+Size.storyName = '三种大小';
+
+export const Icon = () => (
+  <>
+    <Input icon="search" placeholder="search" />
+    <Input icon="music" placeholder="play" />
+  </>
+);
+Icon.storyName = '带图标';
+
+export const Pend = () => (
+  <>
+    <Input prepend="http://" append=".com" defaultValue="mysite" />
+  </>
+);
+Pend.storyName = '前置/后置标签';
+
+export const Controlled = () => {
+  const [value, setValue] = useState<string>();
+  return (
+    <Input
+      defaultValue="受控组件的 defaultValue 不应该生效"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    ></Input>
+  );
 };
+Controlled.storyName = '受控的输入框';
