@@ -4,7 +4,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classnames from 'classnames';
 import Icon from 'components/Icon';
 import { PM_PREFIX_CLS } from 'configs/constant';
-import { hasValue } from 'utils';
+import { isNil } from 'utils';
 
 type InputSize = 'lg' | 'sm';
 type PendType = string | React.ReactElement;
@@ -23,9 +23,9 @@ export const Input: React.FC<InputProps> = (props) => {
     [`${PM_PREFIX_CLS}-input-group`]: prepend || append,
   });
 
-  const fixControlledValue = (value?) => {
-    if (hasValue(value)) return value;
-    return '';
+  const fixControlledValue = (value?: string | number | readonly string[]) => {
+    if (isNil(value)) return '';
+    return value;
   };
 
   if ('value' in props) {
