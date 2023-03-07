@@ -12,9 +12,6 @@ const Com: ComponentMeta<typeof Input> = {
 export default Com;
 
 const Template: ComponentStory<typeof Input> = (args) => <Input {...args}></Input>;
-// const Template: ComponentStory<typeof Input> = (args) => (
-//   <ControlledInput {...args}></ControlledInput>
-// );
 
 export const Default = Template.bind({});
 Default.storyName = '基本使用';
