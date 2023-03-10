@@ -29,6 +29,7 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     onSelect,
     onChange,
     onFocus,
+    onBlur,
     onKeyDown,
     filterOption = true,
     loading,
@@ -36,7 +37,7 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
   } = props;
   const classess = classnames(`${PM_PREFIX_CLS}-auto-complete`, {});
   const [inputValue, setInputValue] = useState<string>();
-  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
   const [hightlightIndex, setHightlightIndex] = useState(-1);
 
   if (!('value' in props)) {
@@ -48,7 +49,8 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     setInputValue(e.target.value);
     onChange?.(e.target.value);
     // onSearch?.(e.target.value);
-    setIsOpened(true);
+    // 仅用 onFocus 开启 isSearching 是不够的，因为键盘选择不会使 Input 失焦，自然也无法触发 focus
+    setIsSearching(true);
   };
 
   const handleSelect: AutoComplateProps['onSelect'] = (value, option) => {
@@ -56,7 +58,8 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     // onChange 在 onSelect 之前，后者修改 value 的优先级更高
     onChange?.(value);
     onSelect?.(value, option);
-    setIsOpened(false);
+    // 仅用 onBlur 关闭 isSearching 是不够的，因为如果是键盘选择，是不会使 Input 失焦的
+    setIsSearching(false);
   };
 
   const hightlight = (nextIndex: number) => {
@@ -130,10 +133,8 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     );
   };
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
-    onSearch?.(debounceValue);
+    if (isSearching) onSearch?.(debounceValue);
     setHightlightIndex(-1);
   }, [debounceValue]);
 
@@ -142,13 +143,20 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
       <Input
         onChange={handleChange}
         onFocus={(e) => {
-          setIsOpened(true);
+          setIsSearching(true);
           onFocus?.(e);
+        }}
+        onBlur={(e) => {
+          // 如果不做延迟，那么鼠标单击选择 option 的瞬间 Input 就已经失焦、options 也会被移除，此时点击事件还未完成，也就无法点击到 option-item
+          setTimeout(() => {
+            setIsSearching(false);
+          }, 100);
+          onBlur?.(e);
         }}
         onKeyDown={handleKeyDown}
         {...restProps}
       />
-      {isOpened && generateDropdown()}
+      {isSearching && generateDropdown()}
     </div>
   );
 };
