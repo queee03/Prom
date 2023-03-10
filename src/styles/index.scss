@@ -2,12 +2,16 @@
 @import 'variables';
 // mixins
 @import 'mixins';
+// functions
+@import 'functions';
 // layout
 @import 'reboot';
 // animation
 @import 'animation';
 
 // 为什么不能在组件内部导入？
+// AutoComplete
+@import '../components/AutoComplete/style';
 // Button
 @import '../components/Button/style';
 // Icon

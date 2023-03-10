@@ -9,7 +9,7 @@ import AutoComplete from './index';
 const Com: ComponentMeta<typeof AutoComplete> = {
   title: 'AutoComplete',
   component: AutoComplete,
-  decorators: [(Story) => <div style={{ width: 350 }}>{Story()}</div>],
+  decorators: [(Story) => <div style={{ width: 350, marginBottom: 140 }}>{Story()}</div>],
 };
 export default Com;
 
@@ -65,15 +65,15 @@ Controlled.storyName = '受控的';
 export const CustomOptions = () => {
   const options = [
     {
-      label: <span style={{ color: '#1677ff' }}>自定义 label 1</span>,
+      label: <span style={{ color: '#ffec3d' }}>自定义 label 1</span>,
       value: '自定义 label 1',
     },
     {
-      label: <span style={{ color: '#0958d9' }}>自定义 label 2</span>,
+      label: <span style={{ color: '#fadb14' }}>自定义 label 2</span>,
       value: '自定义 label 2',
     },
     {
-      label: <span style={{ color: '#003eb3' }}>自定义 label 3</span>,
+      label: <span style={{ color: '#d4b106' }}>自定义 label 3</span>,
       value: '自定义 label 3',
     },
   ];

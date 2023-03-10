@@ -29,14 +29,15 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     onSelect,
     onChange,
     onFocus,
-    onBlur,
+    onKeyDown,
     filterOption = true,
     loading,
     ...restProps
   } = props;
   const classess = classnames(`${PM_PREFIX_CLS}-auto-complete`, {});
-  const [isOpened, setIsOpened] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>();
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const [hightlightIndex, setHightlightIndex] = useState(-1);
 
   if (!('value' in props)) {
     restProps.value = inputValue;
@@ -47,7 +48,7 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     setInputValue(e.target.value);
     onChange?.(e.target.value);
     // onSearch?.(e.target.value);
-    // setIsOpened(true);
+    setIsOpened(true);
   };
 
   const handleSelect: AutoComplateProps['onSelect'] = (value, option) => {
@@ -58,7 +59,37 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     setIsOpened(false);
   };
 
+  const hightlight = (nextIndex: number) => {
+    let index = nextIndex;
+    if (nextIndex < 0) index = 0;
+    if (nextIndex >= options.length) index = options.length - 1;
+    setHightlightIndex(index);
+  };
+
+  const handleKeyDown: AutoComplateProps['onKeyDown'] = (e) => {
+    switch (e.key) {
+      case 'Enter': {
+        const option = options[hightlightIndex];
+        if (option) handleSelect(option.value, option);
+        break;
+      }
+      case 'ArrowDown':
+        hightlight(hightlightIndex + 1);
+        break;
+      case 'ArrowUp':
+        hightlight(hightlightIndex - 1);
+        break;
+      // case 27:
+      //   break;
+      default:
+        break;
+    }
+    onKeyDown?.(e);
+  };
+
   const generateDropdown = () => {
+    const suggestionClasses = classnames(`${PM_PREFIX_CLS}-suggestion-list`);
+
     let filter: FilterOptionFunctionType;
     if (filterOption) {
       if (typeof filterOption === 'boolean') {
@@ -71,14 +102,26 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     }
 
     const currentOptions = options.filter((option) => filter(restProps.value || '', option));
+    if (currentOptions.length <= 0) return null;
 
     return (
-      <ul>
-        {loading && <Icon icon="spinner" spin />}
-        {currentOptions.map((option) => {
+      <ul className={suggestionClasses}>
+        {loading && (
+          <div className="icon-loading">
+            <Icon icon="spinner" spin />
+          </div>
+        )}
+        {currentOptions.map((option, index) => {
+          const suggestionItemClasses = classnames(`${PM_PREFIX_CLS}-suggestion-item`, {
+            'is-active': hightlightIndex === index,
+          });
           const label = option.label || option.value;
           return (
-            <li key={option.value} onClick={() => handleSelect(option.value, option)}>
+            <li
+              className={suggestionItemClasses}
+              key={option.value}
+              onClick={() => handleSelect(option.value, option)}
+            >
               {label}
             </li>
           );
@@ -87,8 +130,11 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     );
   };
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     onSearch?.(debounceValue);
+    setHightlightIndex(-1);
   }, [debounceValue]);
 
   return (
@@ -99,6 +145,7 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
           setIsOpened(true);
           onFocus?.(e);
         }}
+        onKeyDown={handleKeyDown}
         {...restProps}
       />
       {isOpened && generateDropdown()}
