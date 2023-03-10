@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import classnames from 'classnames';
 import Icon from 'components/Icon';
 import Input from 'components/Input';
 import { InputProps } from 'components/Input/input';
 import { PM_PREFIX_CLS } from 'configs/constant';
+import { useDebounce } from 'hooks';
 
 export interface OptionType {
   label?: string | JSX.Element;
@@ -33,18 +34,19 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     loading,
     ...restProps
   } = props;
+  const classess = classnames(`${PM_PREFIX_CLS}-auto-complete`, {});
   const [isOpened, setIsOpened] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>();
-  const classess = classnames(`${PM_PREFIX_CLS}-auto-complete`, {});
 
   if (!('value' in props)) {
     restProps.value = inputValue;
   }
+  const debounceValue = useDebounce(restProps.value || '');
 
   const handleChange: InputProps['onChange'] = (e) => {
     setInputValue(e.target.value);
-    onSearch?.(e.target.value);
     onChange?.(e.target.value);
+    // onSearch?.(e.target.value);
     // setIsOpened(true);
   };
 
@@ -84,6 +86,10 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
       </ul>
     );
   };
+
+  useEffect(() => {
+    onSearch?.(debounceValue);
+  }, [debounceValue]);
 
   return (
     <div className={classess}>
