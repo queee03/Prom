@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { ComponentMeta } from '@storybook/react';
+import { mockPromise } from 'utils';
 
 import { AutoComplateProps } from './autoComplete';
 import AutoComplete from './index';
@@ -34,6 +35,7 @@ Default.storyName = '基本使用';
 
 export const Controlled = () => {
   const [value, setValue] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [options, setOptions] = useState<AutoComplateProps['options']>([]);
 
   const getPanelValue = (searchText: string) =>
@@ -42,13 +44,19 @@ export const Controlled = () => {
   return (
     <AutoComplete
       placeholder="input here"
+      loading={loading}
       options={options}
       value={value}
       onChange={setValue}
-      onSearch={(text) => setOptions(getPanelValue(text))}
+      onSearch={async (text) => {
+        setLoading(true);
+        await mockPromise(() => setOptions(getPanelValue(text)));
+        setLoading(false);
+      }}
       onSelect={(selectedValue) => {
         setValue(`修改值 ${selectedValue}`);
       }}
+      filterOption={false}
     />
   );
 };

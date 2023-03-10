@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import classnames from 'classnames';
+import Icon from 'components/Icon';
 import Input from 'components/Input';
 import { InputProps } from 'components/Input/input';
 import { PM_PREFIX_CLS } from 'configs/constant';
@@ -17,6 +18,7 @@ export interface AutoComplateProps extends Omit<InputProps, 'onSelect' | 'onChan
   onChange?: (value: string) => void;
   value?: string;
   filterOption?: boolean | FilterOptionFunctionType;
+  loading?: boolean;
 }
 
 export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
@@ -28,6 +30,7 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     onFocus,
     onBlur,
     filterOption = true,
+    loading,
     ...restProps
   } = props;
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -69,6 +72,7 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
 
     return (
       <ul>
+        {loading && <Icon icon="spinner" spin />}
         {currentOptions.map((option) => {
           const label = option.label || option.value;
           return (
