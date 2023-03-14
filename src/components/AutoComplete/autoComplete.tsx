@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import classnames from 'classnames';
 import Icon from 'components/Icon';
@@ -39,6 +39,7 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
   const [inputValue, setInputValue] = useState<string>();
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [hightlightIndex, setHightlightIndex] = useState(-1);
+  const selfRef = useRef<HTMLDivElement | null>(null);
 
   if (!('value' in props)) {
     restProps.value = inputValue;
@@ -139,7 +140,7 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
   }, [debounceValue]);
 
   return (
-    <div className={classess}>
+    <div className={classess} ref={selfRef}>
       <Input
         onChange={handleChange}
         onFocus={(e) => {
