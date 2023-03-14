@@ -3,20 +3,23 @@ import type { CSSTransitionProps } from 'react-transition-group/CSSTransition';
 
 type AnimationName = 'zoom-in-top' | 'zoom-in-bottom' | 'zoom-in-left' | 'zoom-in-right';
 
-type TransitionProps = CSSTransitionProps & {
+type TransitionProps = Omit<CSSTransitionProps, 'in' | 'timeout'> & {
+  in: CSSTransitionProps['in'];
+  timeout: CSSTransitionProps['timeout'];
   animation?: AnimationName;
   wrapper?: boolean;
 };
 
 const Transition: React.FC<TransitionProps> = ({
   children,
+  timeout,
   classNames,
   animation,
   wrapper,
   ...props
 }) => {
   return (
-    <CSSTransition classNames={classNames || animation} {...props}>
+    <CSSTransition classNames={classNames || animation} timeout={timeout!} {...props}>
       {wrapper ? <div>{children}</div> : children}
     </CSSTransition>
   );

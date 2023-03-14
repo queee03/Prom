@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import Icon from 'components/Icon';
 import Input from 'components/Input';
 import { InputProps } from 'components/Input/input';
+import Transition from 'components/Transition';
 import { PM_PREFIX_CLS } from 'configs/constant';
 import { useDebounce } from 'hooks';
 
@@ -109,28 +110,30 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     if (currentOptions.length <= 0) return null;
 
     return (
-      <ul className={suggestionClasses}>
-        {loading && (
-          <div className="icon-loading">
-            <Icon icon="spinner" spin />
-          </div>
-        )}
-        {currentOptions.map((option, index) => {
-          const suggestionItemClasses = classnames(`${PM_PREFIX_CLS}-suggestion-item`, {
-            'is-active': hightlightIndex === index,
-          });
-          const label = option.label || option.value;
-          return (
-            <li
-              className={suggestionItemClasses}
-              key={option.value}
-              onClick={() => handleSelect(option.value, option)}
-            >
-              {label}
-            </li>
-          );
-        })}
-      </ul>
+      <Transition animation="zoom-in-top" in={isSearching} timeout={300}>
+        <ul className={suggestionClasses}>
+          {loading && (
+            <div className="icon-loading">
+              <Icon icon="spinner" spin />
+            </div>
+          )}
+          {currentOptions.map((option, index) => {
+            const suggestionItemClasses = classnames(`${PM_PREFIX_CLS}-suggestion-item`, {
+              'is-active': hightlightIndex === index,
+            });
+            const label = option.label || option.value;
+            return (
+              <li
+                className={suggestionItemClasses}
+                key={option.value}
+                onClick={() => handleSelect(option.value, option)}
+              >
+                {label}
+              </li>
+            );
+          })}
+        </ul>
+      </Transition>
     );
   };
 
@@ -157,7 +160,8 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
         onKeyDown={handleKeyDown}
         {...restProps}
       />
-      {isSearching && generateDropdown()}
+      {/* {isSearching && generateDropdown()} */}
+      {generateDropdown()}
     </div>
   );
 };
