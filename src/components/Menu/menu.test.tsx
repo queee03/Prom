@@ -97,6 +97,7 @@ describe('test Menu and MenuItem component', () => {
 
     const dropdownElement = wrapper.getByText('sub');
     userEvent.hover(dropdownElement);
+    // waitFor: 默认等待 1000ms
     await waitFor(() => {
       expect(querySubElement()).toBeInTheDocument();
       expect(querySubElement()).toBeVisible();

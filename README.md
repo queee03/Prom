@@ -69,34 +69,32 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-## 说明
-
-### 参考
+## 参考
 
 https://git.imooc.com/coding-428/vikingship
 
-### 依赖
+## 依赖
 
-#### `react-app-rewired`
-
-用于在不暴露 `webpack` 配置的前提下完成自定义配置
-
-#### `customize-cra`
+### `react-app-rewired`
 
 用于在不暴露 `webpack` 配置的前提下完成自定义配置
 
-#### `@testing-library`
+### `customize-cra`
+
+用于在不暴露 `webpack` 配置的前提下完成自定义配置
+
+### `@testing-library`
 
 测试库
 
-#### `@fortawesome`
+### `@fortawesome`
 
 大型 icon 库，支持 fong-icon 和 svg 两种形式
 
-#### `react-transition-group`
+### `react-transition-group`
 
 辅助动画组件（本身不含任何动画效果）
 
-#### `storybook`
+### `storybook`
 
 文档

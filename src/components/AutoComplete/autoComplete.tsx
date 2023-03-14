@@ -13,7 +13,7 @@ export interface OptionType {
   value: string;
 }
 export type FilterOptionFunctionType = (value: string, option: OptionType) => boolean;
-export interface AutoComplateProps extends Omit<InputProps, 'onSelect' | 'onChange'> {
+export interface AutoCompleteProps extends Omit<InputProps, 'onSelect' | 'onChange'> {
   options: OptionType[];
   onSearch?: (value: string) => void;
   onSelect?: (value: string, option: OptionType) => void;
@@ -23,7 +23,7 @@ export interface AutoComplateProps extends Omit<InputProps, 'onSelect' | 'onChan
   loading?: boolean;
 }
 
-export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
+export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
   const {
     options,
     onSearch,
@@ -55,7 +55,7 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     setIsSearching(true);
   };
 
-  const handleSelect: AutoComplateProps['onSelect'] = (value, option) => {
+  const handleSelect: AutoCompleteProps['onSelect'] = (value, option) => {
     setInputValue(value);
     // onChange 在 onSelect 之前，后者修改 value 的优先级更高
     onChange?.(value);
@@ -71,7 +71,7 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     setHightlightIndex(index);
   };
 
-  const handleKeyDown: AutoComplateProps['onKeyDown'] = (e) => {
+  const handleKeyDown: AutoCompleteProps['onKeyDown'] = (e) => {
     switch (e.key) {
       case 'Enter': {
         const option = options[hightlightIndex];
@@ -98,7 +98,7 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
     let filter: FilterOptionFunctionType;
     if (filterOption) {
       if (typeof filterOption === 'boolean') {
-        filter = (_, option) => option.value.indexOf(restProps.value || '') !== -1;
+        filter = (value, option) => option.value.indexOf(value || '') !== -1;
       } else {
         filter = filterOption;
       }
@@ -166,4 +166,4 @@ export const AutoComplate: React.FC<AutoComplateProps> = (props) => {
   );
 };
 
-export default AutoComplate;
+export default AutoComplete;

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ComponentMeta } from '@storybook/react';
 import { mockPromise } from 'utils';
 
-import { AutoComplateProps } from './autoComplete';
+import { AutoCompleteProps } from './autoComplete';
 import AutoComplete from './index';
 
 const Com: ComponentMeta<typeof AutoComplete> = {
@@ -13,30 +13,20 @@ const Com: ComponentMeta<typeof AutoComplete> = {
 };
 export default Com;
 
-const mockVal = (str: string, repeat = 1) => ({
-  value: str.repeat(repeat),
-});
-
 export const Default = () => {
-  const [options, setOptions] = useState<AutoComplateProps['options']>([]);
-
-  const getPanelValue = (searchText: string) =>
-    !searchText ? [] : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)];
-
-  return (
-    <AutoComplete
-      placeholder="input here"
-      options={options}
-      onSearch={(text) => setOptions(getPanelValue(text))}
-    />
-  );
+  const options = [{ value: 'abc' }, { value: 'bcd' }, { value: 'cde' }];
+  return <AutoComplete placeholder="input here" options={options} />;
 };
 Default.storyName = '基本使用';
 
 export const Controlled = () => {
   const [value, setValue] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [options, setOptions] = useState<AutoComplateProps['options']>([]);
+  const [options, setOptions] = useState<AutoCompleteProps['options']>([]);
+
+  const mockVal = (str: string, repeat = 1) => ({
+    value: str.repeat(repeat),
+  });
 
   const getPanelValue = (searchText: string) =>
     !searchText ? [] : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)];
@@ -98,7 +88,7 @@ export const Customfilter = () => {
   return (
     <>
       <AutoComplete
-        placeholder="input here"
+        placeholder="try to type `b`"
         options={options}
         filterOption={(inputValue, option) =>
           option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
