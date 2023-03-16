@@ -15,9 +15,15 @@ const Template: ComponentStory<typeof Input> = (args) => <Input {...args}></Inpu
 
 export const Default = Template.bind({});
 Default.storyName = '基本使用';
+Default.args = {
+  placeholder: 'input here',
+};
 
 export const Disabled = Template.bind({});
-Default.storyName = '被禁用的';
+Disabled.storyName = '被禁用的';
+Disabled.args = {
+  disabled: true,
+};
 
 export const Size = () => (
   <>
@@ -47,10 +53,11 @@ export const Controlled = () => {
   const [value, setValue] = useState<string>();
   return (
     <Input
+      placeholder="受控的输入框"
       defaultValue="受控组件的 defaultValue 不应该生效"
       value={value}
       onChange={(e) => setValue(e.target.value)}
-    ></Input>
+    />
   );
 };
 Controlled.storyName = '受控的输入框';
