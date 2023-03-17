@@ -8,3 +8,6 @@ export const mockPromise = (fn?: () => void, delay = 1000) => {
     }, delay);
   });
 };
+
+export const generateId = () =>
+  Number(`${Math.random().toString().slice(2)}${Date.now()}`).toString(36);

@@ -1,8 +1,21 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import axios from 'axios';
 import Button from 'components/Button';
 import { PM_PREFIX_CLS } from 'configs/constant';
+import { generateId } from 'utils';
+
+export type UploadFileStatus = 'ready' | 'uploading' | 'success' | 'error';
+export interface UploadFile {
+  uid: string;
+  size: number;
+  name: string;
+  status?: UploadFileStatus;
+  percent?: number;
+  raw?: File;
+  respense?: unknown;
+  error?: unknown;
+}
 
 export interface UploadProps {
   action: string;
@@ -25,6 +38,21 @@ export const Upload: React.FC<UploadProps> = (props) => {
     onError,
   } = props;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  const updateFileList = (target: UploadFile, updateObj: Partial<UploadFile>) => {
+    setFileList((current) => {
+      return current.map((item) => {
+        if (item.uid === target.uid) {
+          return {
+            ...item,
+            ...updateObj,
+          };
+        }
+        return item;
+      });
+    });
+  };
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { files } = e.target; // files: FileList | null
@@ -56,25 +84,41 @@ export const Upload: React.FC<UploadProps> = (props) => {
   const post = async (file: File) => {
     const formData = new FormData();
     formData.append(file.name, file);
+
+    const uploadFile: UploadFile = {
+      uid: generateId(),
+      name: file.name,
+      size: file.size,
+      status: 'ready',
+      percent: 0,
+      raw: file,
+    };
+    setFileList((current) => current.concat(uploadFile));
+
     try {
       const res = await axios.post(action, formData, {
         headers: {
           'Content-Type': 'mulitipart/form-data',
         },
         onUploadProgress: (e) => {
-          if (onProgress && e.total) {
+          if (e.total) {
             const percentage = Math.round((e.loaded * 100) / e.total);
-            onProgress(percentage, file);
+            updateFileList(uploadFile, { percent: percentage });
+            if (onProgress) onProgress(percentage, file);
           }
         },
       });
+      updateFileList(uploadFile, { status: 'success', respense: res.data });
       if (onSuccess) onSuccess(res.data, file);
       if (onChange) onChange(file);
     } catch (err) {
+      updateFileList(uploadFile, { status: 'error', error: err });
       if (onError) onError(err, file);
       if (onChange) onChange(file);
     }
   };
+
+  console.log(fileList);
 
   return (
     <div className={`${PM_PREFIX_CLS}-upload`}>
