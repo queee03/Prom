@@ -8,8 +8,8 @@ import { generateId } from 'utils';
 export type UploadFileStatus = 'ready' | 'uploading' | 'success' | 'error';
 export interface UploadFile {
   uid: string;
-  size: number;
   name: string;
+  size?: number;
   status?: UploadFileStatus;
   percent?: number;
   raw?: File;
@@ -20,17 +20,25 @@ export interface UploadFile {
 export interface UploadProps {
   action: string;
   multiple?: boolean;
-  beforeUpload?: (file: File, files: File[]) => boolean | Promise<File>;
-  onChange?: (file: File) => void;
-  onProgress?: (percentage: number, file: File) => void;
-  onSuccess?: (data: unknown, file: File) => void;
-  onError?: (err: unknown, file: File) => void;
+  maxCount?: number;
+  defaultFileList?: UploadFile[];
+  beforeUpload?: (
+    file: File,
+    files: Array<File | UploadFile>,
+  ) => boolean | File | Promise<boolean | File>;
+  onChange?: (file: UploadFile) => void;
+  onRemove?: (file: UploadFile) => void;
+  onProgress?: (percentage: number, file: UploadFile) => void;
+  onSuccess?: (data: unknown, file: UploadFile) => void;
+  onError?: (err: unknown, file: UploadFile) => void;
 }
 
 export const Upload: React.FC<UploadProps> = (props) => {
   const {
     action,
     multiple = false,
+    // maxCount,
+    defaultFileList,
     beforeUpload,
     onChange,
     onProgress,
@@ -38,21 +46,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
     onError,
   } = props;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-
-  const updateFileList = (target: UploadFile, updateObj: Partial<UploadFile>) => {
-    setFileList((current) => {
-      return current.map((item) => {
-        if (item.uid === target.uid) {
-          return {
-            ...item,
-            ...updateObj,
-          };
-        }
-        return item;
-      });
-    });
-  };
+  const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList || []);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { files } = e.target; // files: FileList | null
@@ -66,7 +60,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
     files.forEach((file) => {
       if (beforeUpload) {
         // 不需要判断 beforeUpload 是否为 Promise
-        Promise.resolve(beforeUpload(file, files)).then((result) => {
+        Promise.resolve(beforeUpload(file, [...fileList, ...files])).then((result) => {
           if (result) {
             if (result === true) {
               post(file);
@@ -104,18 +98,32 @@ export const Upload: React.FC<UploadProps> = (props) => {
           if (e.total) {
             const percentage = Math.round((e.loaded * 100) / e.total);
             updateFileList(uploadFile, { percent: percentage });
-            if (onProgress) onProgress(percentage, file);
+            if (onProgress) onProgress(percentage, uploadFile);
           }
         },
       });
       updateFileList(uploadFile, { status: 'success', respense: res.data });
-      if (onSuccess) onSuccess(res.data, file);
-      if (onChange) onChange(file);
+      if (onSuccess) onSuccess(res.data, uploadFile);
+      if (onChange) onChange(uploadFile);
     } catch (err) {
       updateFileList(uploadFile, { status: 'error', error: err });
-      if (onError) onError(err, file);
-      if (onChange) onChange(file);
+      if (onError) onError(err, uploadFile);
+      if (onChange) onChange(uploadFile);
     }
+  };
+
+  const updateFileList = (target: UploadFile, updateObj: Partial<UploadFile>) => {
+    setFileList((current) => {
+      return current.map((item) => {
+        if (item.uid === target.uid) {
+          return {
+            ...item,
+            ...updateObj,
+          };
+        }
+        return item;
+      });
+    });
   };
 
   console.log(fileList);

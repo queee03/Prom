@@ -14,7 +14,9 @@ const checkFileSize = (file: File) => {
   return true;
 };
 
-const renameFile = (file: File) => {};
+const renameFile = (file: File) => {
+  return new File([file], `new name ${file.name}`, { type: file.type });
+};
 
 const Com: ComponentMeta<typeof Upload> = {
   title: 'Upload',
@@ -27,7 +29,8 @@ export const Default = () => {
     <Upload
       action="https://jsonplaceholder.typicode.com/posts"
       multiple={true}
-      beforeUpload={checkFileSize}
+      // beforeUpload={checkFileSize}
+      beforeUpload={renameFile}
       onProgress={action('onProgress')}
       onSuccess={action('onSuccess')}
       onError={action('onError')}
