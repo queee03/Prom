@@ -1,0 +1,36 @@
+import classNames from 'classnames';
+import Icon from 'components/Icon';
+import { PM_PREFIX_CLS } from 'configs/constant';
+
+import { UploadFileStatus, UploadListProps } from './interface';
+
+const fileStatusMap: Partial<Record<UploadFileStatus, React.ReactElement>> = {
+  ready: <Icon icon="spinner" spin theme="primary" />,
+  uploading: <Icon icon="spinner" spin theme="primary" />,
+  // success: <Icon icon="check-circle" theme="success" />,
+  // error: <Icon icon="times-circle" theme="danger" />,
+};
+
+export const UploadList: React.FC<UploadListProps> = (props) => {
+  const { fileList, onRemove } = props;
+  return (
+    <ul className={`${PM_PREFIX_CLS}-upload-list`}>
+      {fileList.map((item) => {
+        return (
+          <li className={`${PM_PREFIX_CLS}-upload-list-item`} key={item.uid}>
+            <span className={classNames(`file-name`, `file-name-${item.status}`)}>
+              <Icon icon="file-alt" theme="secondary" />
+              {item.name}
+            </span>
+            <span className="file-status">{item.status && fileStatusMap[item.status]}</span>
+            <span className="file-actions">
+              <Icon icon="times" onClick={() => onRemove?.(item)} />
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+
+export default UploadList;

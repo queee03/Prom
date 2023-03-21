@@ -4,7 +4,6 @@ import { action } from '@storybook/addon-actions';
 import { ComponentMeta } from '@storybook/react';
 
 import Upload from './index';
-import { UploadProps } from './upload';
 
 const checkFileSize = (file: File) => {
   if (Math.round(file.size / 1024) > 50) {
@@ -30,7 +29,7 @@ export const Default = () => {
       action="https://jsonplaceholder.typicode.com/posts"
       multiple={true}
       // beforeUpload={checkFileSize}
-      beforeUpload={renameFile}
+      // beforeUpload={renameFile}
       onProgress={action('onProgress')}
       onSuccess={action('onSuccess')}
       onError={action('onError')}

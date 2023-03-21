@@ -5,33 +5,8 @@ import Button from 'components/Button';
 import { PM_PREFIX_CLS } from 'configs/constant';
 import { generateId } from 'utils';
 
-export type UploadFileStatus = 'ready' | 'uploading' | 'success' | 'error';
-export interface UploadFile {
-  uid: string;
-  name: string;
-  size?: number;
-  status?: UploadFileStatus;
-  percent?: number;
-  raw?: File;
-  respense?: unknown;
-  error?: unknown;
-}
-
-export interface UploadProps {
-  action: string;
-  multiple?: boolean;
-  maxCount?: number;
-  defaultFileList?: UploadFile[];
-  beforeUpload?: (
-    file: File,
-    files: Array<File | UploadFile>,
-  ) => boolean | File | Promise<boolean | File>;
-  onChange?: (file: UploadFile) => void;
-  onRemove?: (file: UploadFile) => void;
-  onProgress?: (percentage: number, file: UploadFile) => void;
-  onSuccess?: (data: unknown, file: UploadFile) => void;
-  onError?: (err: unknown, file: UploadFile) => void;
-}
+import { UploadFile, UploadListProps, UploadProps } from './interface';
+import UploadList from './uploadList';
 
 export const Upload: React.FC<UploadProps> = (props) => {
   const {
@@ -44,6 +19,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
     onProgress,
     onSuccess,
     onError,
+    onRemove,
   } = props;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList || []);
@@ -53,6 +29,19 @@ export const Upload: React.FC<UploadProps> = (props) => {
     if (files) {
       uploadFiles(Array.from(files)); // Array.from 将 FileList 展开为数组
       if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const handleRemove: UploadListProps['onRemove'] = (file) => {
+    const remove = () => {
+      setFileList((current) => current.filter((item) => item.uid !== file.uid));
+    };
+    if (onRemove) {
+      Promise.resolve(onRemove(file)).then((result) => {
+        if (result) remove();
+      });
+    } else {
+      remove();
     }
   };
 
@@ -145,6 +134,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
         onChange={handleChange}
         style={{ display: 'none' }}
       />
+      <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>
   );
 };
