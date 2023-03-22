@@ -1,5 +1,6 @@
 import classnames from 'classnames';
 import Icon from 'components/Icon';
+import Progress from 'components/Progress';
 import { PM_PREFIX_CLS } from 'configs/constant';
 
 import { UploadFileStatus, UploadListProps } from './interface';
@@ -12,7 +13,8 @@ const fileStatusMap: Partial<Record<UploadFileStatus, React.ReactElement>> = {
 };
 
 export const UploadList: React.FC<UploadListProps> = (props) => {
-  const { fileList, onRemove, className, ...restProps } = props;
+  const { className, fileList, onRemove, ...restProps } = props;
+
   return (
     <ul className={classnames(`${PM_PREFIX_CLS}-upload-list`, className)} {...restProps}>
       {fileList.map((item) => {
@@ -26,6 +28,7 @@ export const UploadList: React.FC<UploadListProps> = (props) => {
             <span className="file-actions">
               <Icon icon="times" onClick={() => onRemove?.(item)} />
             </span>
+            {item.status === 'uploading' && <Progress percent={item.percent || 0} />}
           </li>
         );
       })}

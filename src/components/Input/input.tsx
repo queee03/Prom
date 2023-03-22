@@ -17,7 +17,7 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 }
 
 export const Input: React.FC<InputProps> = (props) => {
-  const { disabled, size, icon, prepend, append, className, ...restProps } = props;
+  const { className, disabled, size, icon, prepend, append, ...restProps } = props;
   const classes = classnames(
     `${PM_PREFIX_CLS}-input-wrapper`,
     {
