@@ -17,11 +17,15 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 }
 
 export const Input: React.FC<InputProps> = (props) => {
-  const { disabled, size, icon, prepend, append, ...restProps } = props;
-  const classes = classnames(`${PM_PREFIX_CLS}-input-wrapper`, {
-    [`${PM_PREFIX_CLS}-size-${size}`]: size,
-    [`${PM_PREFIX_CLS}-input-group`]: prepend || append,
-  });
+  const { disabled, size, icon, prepend, append, className, ...restProps } = props;
+  const classes = classnames(
+    `${PM_PREFIX_CLS}-input-wrapper`,
+    {
+      [`${PM_PREFIX_CLS}-size-${size}`]: size,
+      [`${PM_PREFIX_CLS}-input-group`]: prepend || append,
+    },
+    className,
+  );
 
   const fixControlledValue = (value?: string | number | readonly string[]) => {
     if (isNil(value)) return '';
@@ -35,7 +39,7 @@ export const Input: React.FC<InputProps> = (props) => {
   }
 
   return (
-    <div data-testid={`${PM_PREFIX_CLS}-input`} className={classes}>
+    <div className={classes} data-testid={`${PM_PREFIX_CLS}-input`}>
       {prepend && <div className={`${PM_PREFIX_CLS}-input-group-prepend`}>{prepend}</div>}
       {icon && (
         <div className="icon-wrapper">

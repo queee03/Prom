@@ -16,10 +16,10 @@ const Transition: React.FC<TransitionProps> = ({
   classNames,
   animation,
   wrapper,
-  ...props
+  ...restProps
 }) => {
   return (
-    <CSSTransition classNames={classNames || animation} timeout={timeout!} {...props}>
+    <CSSTransition classNames={classNames || animation} timeout={timeout!} {...restProps}>
       {wrapper ? <div>{children}</div> : children}
     </CSSTransition>
   );

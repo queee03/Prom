@@ -21,7 +21,6 @@ enum ButtonTypeMap {
 type OriginButtonProps = React.ButtonHTMLAttributes<HTMLElement>;
 type OriginAnchorProps = React.AnchorHTMLAttributes<HTMLElement>;
 interface BaseButtonProps {
-  className?: string;
   /** disabled 注释测试 */
   disabled?: boolean;
   size?: ButtonSize;
@@ -49,22 +48,26 @@ export const Button: React.FC<ButtonProps> = ({
   size,
   children,
   href,
-  ...props
+  ...restProps
 }) => {
-  const classes = classNames(`${PM_PREFIX_CLS}-button`, className, {
-    [`${PM_PREFIX_CLS}-button-${ButtonTypeMap[type!]}`]: type,
-    [`${PM_PREFIX_CLS}-button-${ButtonSizeMap[size!]}`]: size,
-    disabled: type === 'link' && disabled,
-  });
+  const classes = classNames(
+    `${PM_PREFIX_CLS}-button`,
+    {
+      [`${PM_PREFIX_CLS}-button-${ButtonTypeMap[type!]}`]: type,
+      [`${PM_PREFIX_CLS}-button-${ButtonSizeMap[size!]}`]: size,
+      disabled: type === 'link' && disabled,
+    },
+    className,
+  );
   if (type === 'link' && href) {
     return (
-      <a className={classes} href={href} {...props}>
+      <a className={classes} href={href} {...restProps}>
         {children}
       </a>
     );
   } else {
     return (
-      <button className={classes} disabled={disabled} {...props}>
+      <button className={classes} disabled={disabled} {...restProps}>
         {children}
       </button>
     );

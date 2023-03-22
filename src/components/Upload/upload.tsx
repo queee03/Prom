@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 
 import axios from 'axios';
+import classnames from 'classnames';
 import Button from 'components/Button';
 import { PM_PREFIX_CLS } from 'configs/constant';
 import { generateId } from 'utils';
@@ -20,6 +21,8 @@ export const Upload: React.FC<UploadProps> = (props) => {
     onSuccess,
     onError,
     onRemove,
+    className,
+    ...restProps
   } = props;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList || []);
@@ -115,10 +118,8 @@ export const Upload: React.FC<UploadProps> = (props) => {
     });
   };
 
-  console.log(fileList);
-
   return (
-    <div className={`${PM_PREFIX_CLS}-upload`}>
+    <div className={classnames(`${PM_PREFIX_CLS}-upload`, className)} {...restProps}>
       <Button
         type="primary"
         onClick={() => {

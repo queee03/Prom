@@ -10,7 +10,8 @@ export interface UploadFile {
   error?: unknown;
 }
 
-export interface UploadProps {
+export interface UploadProps
+  extends Omit<React.HTMLAttributes<HTMLElement>, 'onChange' | 'onError' | 'onProgress'> {
   action: string;
   multiple?: boolean;
   maxCount?: number;
@@ -26,7 +27,7 @@ export interface UploadProps {
   onRemove?: (file: UploadFile) => boolean | Promise<boolean>;
 }
 
-export interface UploadListProps {
+export interface UploadListProps extends React.HTMLAttributes<HTMLUListElement> {
   fileList: UploadFile[];
   onRemove?: (file: UploadFile) => void;
 }

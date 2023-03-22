@@ -23,12 +23,18 @@ export interface IconProps extends FontAwesomeIconProps {
 
 library.add(fas);
 
-const Icon: React.FC<IconProps> = ({ className, theme, ...props }) => {
-  const classes = classnames(`${PM_PREFIX_CLS}-icon`, className, {
-    [`${PM_PREFIX_CLS}-icon-${theme}`]: theme,
-  });
+const Icon: React.FC<IconProps> = ({ className, theme, ...restProps }) => {
+  const classes = classnames(
+    `${PM_PREFIX_CLS}-icon`,
+    {
+      [`${PM_PREFIX_CLS}-icon-${theme}`]: theme,
+    },
+    className,
+  );
 
-  return <FontAwesomeIcon data-testid={`${PM_PREFIX_CLS}-icon`} className={classes} {...props} />;
+  return (
+    <FontAwesomeIcon className={classes} {...restProps} data-testid={`${PM_PREFIX_CLS}-icon`} />
+  );
 };
 
 export default Icon;

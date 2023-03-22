@@ -5,20 +5,28 @@ import { PM_PREFIX_CLS } from 'configs/constant';
 
 import MenuContext, { MenuIndex } from './menuContext';
 
-export interface MenuItemProps {
+export interface MenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
   index?: MenuIndex;
   disabled?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ className, index, disabled, children, ...props }) => {
+const MenuItem: React.FC<MenuItemProps> = ({
+  className,
+  index,
+  disabled,
+  children,
+  ...restProps
+}) => {
   const context = useContext(MenuContext);
 
-  const classes = classnames(`${PM_PREFIX_CLS}-menu-item`, className, {
-    'is-disabled': disabled,
-    'is-active': context.currentIndex === index,
-  });
+  const classes = classnames(
+    `${PM_PREFIX_CLS}-menu-item`,
+    {
+      'is-disabled': disabled,
+      'is-active': context.currentIndex === index,
+    },
+    className,
+  );
 
   const handleClick = () => {
     if (disabled) return;
@@ -28,7 +36,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ className, index, disabled, childre
   };
 
   return (
-    <li className={classes} {...props} onClick={handleClick}>
+    <li className={classes} {...restProps} onClick={handleClick}>
       {children}
     </li>
   );

@@ -6,27 +6,27 @@ import { PM_PREFIX_CLS } from 'configs/constant';
 import MenuContext, { MenuContextProps, MenuIndex } from './menuContext';
 import { MenuItemProps } from './menuItem';
 
-export interface MenuProps extends MenuContextProps {
+export interface MenuProps
+  extends Omit<React.HTMLAttributes<HTMLUListElement>, 'onSelect'>,
+    MenuContextProps {
   defaultIndex?: MenuIndex;
-  className?: string;
-  style?: React.CSSProperties;
 }
 
 export const Menu: React.FC<MenuProps> = ({
-  defaultIndex,
   className,
+  defaultIndex,
   children,
   mode,
   defaultOpenSubMenus,
   onSelect,
-  ...props
+  ...restProps
 }) => {
   const [currentActive, setCurrentActive] = useState(defaultIndex);
 
   const classes = classnames(
     `${PM_PREFIX_CLS}-menu`,
-    className,
     mode === 'vertical' ? `${PM_PREFIX_CLS}-menu-vertical` : `${PM_PREFIX_CLS}-menu-horizontal`,
+    className,
   );
 
   const handleClick = (index: MenuIndex) => {
@@ -55,7 +55,7 @@ export const Menu: React.FC<MenuProps> = ({
   };
 
   return (
-    <ul data-testid="pm-menu" className={classes} {...props}>
+    <ul className={classes} {...restProps} data-testid="pm-menu">
       <MenuContext.Provider value={passedContext}>{renderChildren()}</MenuContext.Provider>
     </ul>
   );

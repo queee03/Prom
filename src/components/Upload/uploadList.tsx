@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classnames from 'classnames';
 import Icon from 'components/Icon';
 import { PM_PREFIX_CLS } from 'configs/constant';
 
@@ -12,13 +12,13 @@ const fileStatusMap: Partial<Record<UploadFileStatus, React.ReactElement>> = {
 };
 
 export const UploadList: React.FC<UploadListProps> = (props) => {
-  const { fileList, onRemove } = props;
+  const { fileList, onRemove, className, ...restProps } = props;
   return (
-    <ul className={`${PM_PREFIX_CLS}-upload-list`}>
+    <ul className={classnames(`${PM_PREFIX_CLS}-upload-list`, className)} {...restProps}>
       {fileList.map((item) => {
         return (
           <li className={`${PM_PREFIX_CLS}-upload-list-item`} key={item.uid}>
-            <span className={classNames(`file-name`, `file-name-${item.status}`)}>
+            <span className={classnames(`file-name`, `file-name-${item.status}`)}>
               <Icon icon="file-alt" theme="secondary" />
               {item.name}
             </span>

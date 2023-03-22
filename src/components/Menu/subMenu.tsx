@@ -8,13 +8,12 @@ import { PM_PREFIX_CLS } from 'configs/constant';
 import MenuContext, { MenuIndex } from './menuContext';
 import { MenuItemProps } from './menuItem';
 
-export interface SubMenuProps {
+export interface SubMenuProps extends React.HTMLAttributes<HTMLLIElement> {
   index?: MenuIndex;
   title: string;
-  className?: string;
 }
 
-const SubMenu: React.FC<SubMenuProps> = ({ index, title, className, children }) => {
+const SubMenu: React.FC<SubMenuProps> = ({ index, title, className, children, ...restProps }) => {
   const context = useContext(MenuContext);
   const isDefaultOpen =
     context.mode === 'vertical' && index ? context.defaultOpenSubMenus?.includes(index) : false;
@@ -84,7 +83,7 @@ const SubMenu: React.FC<SubMenuProps> = ({ index, title, className, children }) 
   };
 
   return (
-    <li className={classes} key={index} {...hoverEvents}>
+    <li className={classes} key={index} {...restProps} {...hoverEvents}>
       <div className="title" {...clickEvents}>
         {title}
         <Icon className="arrow-icon" icon="chevron-down" size="xs" />
