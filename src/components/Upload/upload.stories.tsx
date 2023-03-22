@@ -27,9 +27,14 @@ export const Default = () => {
   return (
     <Upload
       action="https://jsonplaceholder.typicode.com/posts"
+      name="object"
+      accept=".jpg"
       multiple={true}
       // beforeUpload={checkFileSize}
       // beforeUpload={renameFile}
+      // onChange={(file) => {
+      //   console.log('file', file);
+      // }}
       onProgress={action('onProgress')}
       onSuccess={action('onSuccess')}
       onError={action('onError')}

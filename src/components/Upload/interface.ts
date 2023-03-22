@@ -10,9 +10,15 @@ export interface UploadFile {
   error?: unknown;
 }
 
-export interface UploadProps
-  extends Omit<React.HTMLAttributes<HTMLElement>, 'onChange' | 'onError' | 'onProgress'> {
+export interface UploadProps {
+  className?: string;
+  style?: React.CSSProperties;
   action: string;
+  name?: string;
+  headers?: Record<string, unknown>;
+  data?: Record<string, string | Blob>;
+  withCredentials?: boolean;
+  accept?: string;
   multiple?: boolean;
   maxCount?: number;
   defaultFileList?: UploadFile[];

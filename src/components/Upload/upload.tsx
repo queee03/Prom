@@ -1,3 +1,4 @@
+/* eslint-disable require-atomic-updates */
 import { useRef, useState } from 'react';
 
 import axios from 'axios';
@@ -11,8 +12,14 @@ import UploadList from './uploadList';
 
 export const Upload: React.FC<UploadProps> = (props) => {
   const {
+    className,
     action,
-    multiple = false,
+    name,
+    headers,
+    data,
+    withCredentials,
+    accept,
+    multiple,
     // maxCount,
     defaultFileList,
     beforeUpload,
@@ -21,7 +28,6 @@ export const Upload: React.FC<UploadProps> = (props) => {
     onSuccess,
     onError,
     onRemove,
-    className,
     ...restProps
   } = props;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -68,9 +74,6 @@ export const Upload: React.FC<UploadProps> = (props) => {
   };
 
   const post = async (file: File) => {
-    const formData = new FormData();
-    formData.append(file.name, file);
-
     const uploadFile: UploadFile = {
       uid: generateId(),
       name: file.name,
@@ -80,46 +83,68 @@ export const Upload: React.FC<UploadProps> = (props) => {
       raw: file,
     };
     setFileList((current) => current.concat(uploadFile));
+    if (onChange) onChange(uploadFile);
+
+    const formData = new FormData();
+    formData.append(name || 'file', file);
+
+    if (data) {
+      Object.keys(data).forEach((key) => formData.append(key, data[key]));
+    }
 
     try {
       const res = await axios.post(action, formData, {
         headers: {
           'Content-Type': 'mulitipart/form-data',
+          ...headers,
         },
+        withCredentials,
         onUploadProgress: (e) => {
           if (e.total) {
             const percentage = Math.round((e.loaded * 100) / e.total);
-            updateFileList(uploadFile, { status: 'uploading', percent: percentage });
+            uploadFile.status = 'uploading';
+            uploadFile.percent = percentage;
+            updateFileList(uploadFile);
             if (onProgress) onProgress(percentage, uploadFile);
+            if (onChange) onChange(uploadFile);
           }
         },
       });
-      updateFileList(uploadFile, { status: 'success', respense: res.data });
+
+      uploadFile.status = 'success';
+      uploadFile.respense = res.data;
+      updateFileList(uploadFile);
       if (onSuccess) onSuccess(res.data, uploadFile);
       if (onChange) onChange(uploadFile);
     } catch (err) {
-      updateFileList(uploadFile, { status: 'error', error: err });
+      uploadFile.status = 'error';
+      uploadFile.error = err;
+      updateFileList(uploadFile);
       if (onError) onError(err, uploadFile);
       if (onChange) onChange(uploadFile);
     }
   };
 
-  const updateFileList = (target: UploadFile, updateObj: Partial<UploadFile>) => {
+  const updateFileList = (target: UploadFile) => {
     setFileList((current) => {
       return current.map((item) => {
-        if (item.uid === target.uid) {
-          return {
-            ...item,
-            ...updateObj,
-          };
-        }
+        if (item.uid === target.uid) return target;
         return item;
       });
     });
   };
 
   return (
-    <div className={classnames(`${PM_PREFIX_CLS}-upload`, className)} {...restProps}>
+    <div className={classnames(`${PM_PREFIX_CLS}-upload`, className)}>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept={accept}
+        multiple={multiple}
+        onChange={handleChange}
+        {...restProps}
+        style={{ display: 'none' }}
+      />
       <Button
         type="primary"
         onClick={() => {
@@ -128,16 +153,13 @@ export const Upload: React.FC<UploadProps> = (props) => {
       >
         Upload
       </Button>
-      <input
-        ref={fileInputRef}
-        type="file"
-        multiple={multiple}
-        onChange={handleChange}
-        style={{ display: 'none' }}
-      />
       <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>
   );
 };
 
+Upload.defaultProps = {
+  name: 'file',
+  multiple: false,
+};
 export default Upload;
