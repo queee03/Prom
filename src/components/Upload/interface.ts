@@ -37,3 +37,7 @@ export interface UploadListProps extends React.HTMLAttributes<HTMLUListElement> 
   fileList: UploadFile[];
   onRemove?: (file: UploadFile) => void;
 }
+
+export interface DraggerProps extends React.HTMLAttributes<HTMLDivElement> {
+  onFileDrop?: (files: File[]) => void;
+}

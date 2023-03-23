@@ -1,5 +1,5 @@
 /* eslint-disable require-atomic-updates */
-import { useRef, useState } from 'react';
+import React, { cloneElement, useRef, useState } from 'react';
 
 import axios from 'axios';
 import classnames from 'classnames';
@@ -7,7 +7,7 @@ import Button from 'components/Button';
 import { PM_PREFIX_CLS } from 'configs/constant';
 import { generateId } from 'utils';
 
-import { UploadFile, UploadListProps, UploadProps } from './interface';
+import { DraggerProps, UploadFile, UploadListProps, UploadProps } from './interface';
 import UploadList from './uploadList';
 
 export const Upload: React.FC<UploadProps> = (props) => {
@@ -135,15 +135,27 @@ export const Upload: React.FC<UploadProps> = (props) => {
     });
   };
 
+  const renderChildren = () => {
+    return React.Children.map(children, (child, i) => {
+      const childElement = child as React.ReactHTMLElement<HTMLElement>;
+      return cloneElement(childElement, {
+        onFileDrop: uploadFiles,
+        onClick: () => {
+          fileInputRef.current?.click();
+        },
+      });
+    });
+  };
+
   return (
     <div className={classnames(`${PM_PREFIX_CLS}-upload`, className)}>
       <span
         className={`${PM_PREFIX_CLS}-upload-input`}
-        onClick={() => {
-          fileInputRef.current?.click();
-        }}
+        // onClick={() => {
+        //   fileInputRef.current?.click();
+        // }}
       >
-        {children}
+        {renderChildren()}
         <input
           ref={fileInputRef}
           type="file"

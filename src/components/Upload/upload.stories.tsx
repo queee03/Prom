@@ -40,7 +40,8 @@ export const Default = () => {
       onSuccess={action('onSuccess')}
       onError={action('onError')}
     >
-      <Button>Upload</Button>
+      {/* <Button>Upload</Button> */}
+      <Upload.Dragger>here</Upload.Dragger>
     </Upload>
   );
 };

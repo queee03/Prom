@@ -1,3 +1,10 @@
+.#{$pm-prefix}-upload-input {
+  display: table;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
 .#{$pm-prefix}-upload-list {
   margin: 0;
   padding: 0;
@@ -56,7 +63,7 @@
   }
 }
 
-.#{$pm-prefix}-uploader-dragger {
+.#{$pm-prefix}-upload-dragger {
   background: $gray-100;
   border: 1px dashed $gray-300;
   border-radius: 4px;
