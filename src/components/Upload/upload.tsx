@@ -13,6 +13,7 @@ import UploadList from './uploadList';
 export const Upload: React.FC<UploadProps> = (props) => {
   const {
     className,
+    children,
     action,
     name,
     headers,
@@ -136,23 +137,23 @@ export const Upload: React.FC<UploadProps> = (props) => {
 
   return (
     <div className={classnames(`${PM_PREFIX_CLS}-upload`, className)}>
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept={accept}
-        multiple={multiple}
-        onChange={handleChange}
-        {...restProps}
-        style={{ display: 'none' }}
-      />
-      <Button
-        type="primary"
+      <span
+        className={`${PM_PREFIX_CLS}-upload-input`}
         onClick={() => {
           fileInputRef.current?.click();
         }}
       >
-        Upload
-      </Button>
+        {children}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept={accept}
+          multiple={multiple}
+          onChange={handleChange}
+          {...restProps}
+          style={{ display: 'none' }}
+        />
+      </span>
       <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>
   );

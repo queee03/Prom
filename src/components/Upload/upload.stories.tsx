@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { ComponentMeta } from '@storybook/react';
+import Button from 'components/Button';
 
 import Upload from './index';
 
@@ -38,7 +39,9 @@ export const Default = () => {
       onProgress={action('onProgress')}
       onSuccess={action('onSuccess')}
       onError={action('onError')}
-    />
+    >
+      <Button>Upload</Button>
+    </Upload>
   );
 };
 Default.storyName = '基本使用';

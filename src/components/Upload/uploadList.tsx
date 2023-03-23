@@ -28,7 +28,9 @@ export const UploadList: React.FC<UploadListProps> = (props) => {
             <span className="file-actions">
               <Icon icon="times" onClick={() => onRemove?.(item)} />
             </span>
-            {item.status === 'uploading' && <Progress percent={item.percent || 0} />}
+            {(item.status === 'ready' || item.status === 'uploading') && (
+              <Progress percent={item.percent || 0} strokeHeight={8} showText={false} />
+            )}
           </li>
         );
       })}
