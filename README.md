@@ -75,6 +75,10 @@ https://git.imooc.com/coding-428/vikingship
 
 ## 依赖
 
+### `create-react-app`
+
+项目构建，内置了很多配置，[文档](https://create-react-app.bootcss.com/docs/getting-started)
+
 ### `react-app-rewired`
 
 用于在不暴露 `webpack` 配置的前提下完成自定义配置
@@ -83,9 +87,23 @@ https://git.imooc.com/coding-428/vikingship
 
 用于在不暴露 `webpack` 配置的前提下完成自定义配置
 
+### `jest`
+
+`create-react-app` 内置 `jest` 并为其做了基础配置，所以我们不用关心 `jest` 对 ts 的适配；也因此 `jest.config.js` 文件配置默认不会生效，如果在命令行中加上 `-- --config=jest.config.js` 强制启用则会完全覆盖默认配置；官方建议的配置方式是在 `package.json` 中添加配置。
+
+#### 相关文档
+
+- [running tests](https://create-react-app.dev/docs/running-tests)
+- [configuration](https://create-react-app.dev/docs/running-tests/#configuration)
+
+#### issues
+
+- [引入 axios 报错](https://stackoverflow.com/questions/73958968/cannot-use-import-statement-outside-a-module-with-axios)
+
 ### `@testing-library`
 
-测试库
+[React Testing Library](https://create-react-app.dev/docs/running-tests/#react-testing-library)
+用于组件测试
 
 ### `@fortawesome`
 

@@ -37,10 +37,14 @@ export const Default = () => {
       //   console.log('file', file);
       // }}
       onProgress={action('onProgress')}
-      onSuccess={action('onSuccess')}
+      onSuccess={(...props) => {
+        console.log('success', props);
+      }}
+      onRemove={(file) => true}
       onError={action('onError')}
     >
-      {/* <Button>Upload</Button> */}
+      Upload
+      <Button>Upload</Button>
       <Upload.Dragger>here</Upload.Dragger>
     </Upload>
   );

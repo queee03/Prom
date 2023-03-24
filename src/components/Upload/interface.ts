@@ -6,7 +6,7 @@ export interface UploadFile {
   status?: UploadFileStatus;
   percent?: number;
   raw?: File;
-  respense?: unknown;
+  response?: unknown;
   error?: unknown;
 }
 

@@ -1,9 +1,8 @@
 /* eslint-disable require-atomic-updates */
-import React, { cloneElement, useRef, useState } from 'react';
+import React, { cloneElement, HTMLAttributes, isValidElement, useRef, useState } from 'react';
 
 import axios from 'axios';
 import classnames from 'classnames';
-import Button from 'components/Button';
 import { PM_PREFIX_CLS } from 'configs/constant';
 import { generateId } from 'utils';
 
@@ -113,7 +112,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
       });
 
       uploadFile.status = 'success';
-      uploadFile.respense = res.data;
+      uploadFile.response = res.data;
       updateFileList(uploadFile);
       if (onSuccess) onSuccess(res.data, uploadFile);
       if (onChange) onChange(uploadFile);
@@ -136,27 +135,37 @@ export const Upload: React.FC<UploadProps> = (props) => {
   };
 
   const renderChildren = () => {
+    const events = {
+      onClick: () => {
+        fileInputRef.current?.click();
+      },
+    };
     return React.Children.map(children, (child, i) => {
-      const childElement = child as React.ReactHTMLElement<HTMLElement>;
-      return cloneElement(childElement, {
-        onFileDrop: uploadFiles,
-        onClick: () => {
-          fileInputRef.current?.click();
-        },
-      });
+      if (isValidElement(child)) {
+        const childElement = child as React.FunctionComponentElement<
+          React.HTMLAttributes<HTMLElement>
+        >;
+        const { displayName } = childElement.type || {};
+        if (displayName === 'Dragger') {
+          return cloneElement(childElement as React.FunctionComponentElement<DraggerProps>, {
+            onFileDrop: uploadFiles,
+            onClick: () => {
+              fileInputRef.current?.click();
+            },
+          });
+        }
+        return cloneElement(child, events);
+      } else {
+        return <span {...events}>{child}</span>;
+      }
     });
   };
 
   return (
     <div className={classnames(`${PM_PREFIX_CLS}-upload`, className)}>
-      <span
-        className={`${PM_PREFIX_CLS}-upload-input`}
-        // onClick={() => {
-        //   fileInputRef.current?.click();
-        // }}
-      >
-        {renderChildren()}
+      <span className={`${PM_PREFIX_CLS}-upload-input`}>
         <input
+          className="upload-input"
           ref={fileInputRef}
           type="file"
           accept={accept}
@@ -165,6 +174,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
           {...restProps}
           style={{ display: 'none' }}
         />
+        {renderChildren()}
       </span>
       <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>
