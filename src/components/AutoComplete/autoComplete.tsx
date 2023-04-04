@@ -36,7 +36,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     loading,
     ...restProps
   } = props;
-  const classess = classnames(`${PM_PREFIX_CLS}-auto-complete`, {});
+  const classes = classnames(`${PM_PREFIX_CLS}-auto-complete`, {});
   const [inputValue, setInputValue] = useState<string>();
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [hightlightIndex, setHightlightIndex] = useState(-1);
@@ -143,7 +143,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
   }, [debounceValue]);
 
   return (
-    <div className={classess} ref={selfRef}>
+    <div className={classes} ref={selfRef}>
       <Input
         onChange={handleChange}
         onFocus={(e) => {

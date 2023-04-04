@@ -1,18 +1,17 @@
-import { useState } from 'react';
-
+// import { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { ComponentMeta } from '@storybook/react';
 import Button from 'components/Button';
 
 import Upload from './index';
 
-const checkFileSize = (file: File) => {
-  if (Math.round(file.size / 1024) > 50) {
-    alert('file too big');
-    return false;
-  }
-  return true;
-};
+// const checkFileSize = (file: File) => {
+//   if (Math.round(file.size / 1024) > 50) {
+//     alert('file too big');
+//     return false;
+//   }
+//   return true;
+// };
 
 const renameFile = (file: File) => {
   return new File([file], `new name ${file.name}`, { type: file.type });
@@ -32,7 +31,7 @@ export const Default = () => {
       accept=".jpg"
       multiple={true}
       // beforeUpload={checkFileSize}
-      // beforeUpload={renameFile}
+      beforeUpload={renameFile}
       // onChange={(file) => {
       //   console.log('file', file);
       // }}
