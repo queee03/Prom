@@ -44,10 +44,11 @@ export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>; // Par
 export const Button: React.FC<ButtonProps> = ({
   className,
   type,
-  disabled,
   size,
+  disabled,
   children,
   href,
+  htmlType,
   ...restProps
 }) => {
   const classes = classNames(
@@ -61,13 +62,13 @@ export const Button: React.FC<ButtonProps> = ({
   );
   if (type === 'link' && href) {
     return (
-      <a className={classes} href={href} {...restProps}>
+      <a className={classes} href={href} type={htmlType} {...restProps}>
         {children}
       </a>
     );
   } else {
     return (
-      <button className={classes} disabled={disabled} {...restProps}>
+      <button className={classes} disabled={disabled} type={htmlType} {...restProps}>
         {children}
       </button>
     );

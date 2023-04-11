@@ -17,13 +17,13 @@ export default Com;
 export const Default = () => {
   return (
     <Form>
-      <Form.Item label="username">
+      <Form.Item name="username" label="username">
         <Input />
       </Form.Item>
-      <Form.Item label="password">
+      <Form.Item name="password" label="password">
         <Input type="password" />
       </Form.Item>
-      <Form.Item>
+      <Form.Item name="no-label">
         <Input placeholder="no-label" />
       </Form.Item>
       <Form.Item>
