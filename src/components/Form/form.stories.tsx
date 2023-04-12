@@ -16,8 +16,8 @@ export default Com;
 
 export const Default = () => {
   return (
-    <Form>
-      <Form.Item name="username" label="用户名">
+    <Form initialValues={{ username: 'happy', checkbox: false }}>
+      <Form.Item name="username" label="用户名" initialValue="unhappy">
         <Input />
       </Form.Item>
       <Form.Item name="password" label="密码">
@@ -28,6 +28,7 @@ export const Default = () => {
       </Form.Item>
       <Form.Item
         name="checkbox"
+        initialValue={undefined}
         valuePropName="checked"
         getValueFromEvent={(e) => e.target.checked}
       >

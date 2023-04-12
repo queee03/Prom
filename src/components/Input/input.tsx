@@ -28,15 +28,14 @@ export const Input: React.FC<InputProps> = (props) => {
     className,
   );
 
-  const fixControlledValue = (value?: string | number | readonly string[]) => {
-    if (isNil(value)) return '';
-    return value;
-  };
-
   if ('value' in props) {
     // 不可同时存在 value 和 defaultValue, 前者意味着组件受控, 此时 defaultValue 不应该生效
     delete restProps.defaultValue;
-    restProps.value = fixControlledValue(props.value);
+    restProps.value = isNil(props.value) ? '' : props.value;
+  }
+
+  if ('checked' in props) {
+    restProps.checked = isNil(props.checked) ? false : props.checked;
   }
 
   return (

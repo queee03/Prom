@@ -2,6 +2,7 @@ import React, { Children, useContext, useEffect } from 'react';
 
 import classnames from 'classnames';
 import { PM_PREFIX_CLS } from 'configs/constant';
+import { isNil } from 'utils';
 
 import FormContext from './formContext';
 import { FieldDetail } from './useStore';
@@ -11,6 +12,7 @@ interface FormItemProps {
   style?: React.CSSProperties;
   name?: string;
   label?: string;
+  initialValue?: unknown;
   trigger?: string;
   valuePropName?: string;
   getValueFromEvent?: (...args: any[]) => string;
@@ -22,12 +24,13 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
     children,
     name,
     label,
+    initialValue,
     trigger,
     valuePropName,
     getValueFromEvent,
     ...restProps
   } = props;
-  const { fields, dispatch } = useContext(FormContext);
+  const { fields, dispatch, initialValues } = useContext(FormContext);
 
   const rowClasses = classnames(
     `${PM_PREFIX_CLS}-form-item-row`,
@@ -61,7 +64,16 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
     renderChildren = React.cloneElement(child, { ...controlProps });
 
     useEffect(() => {
-      dispatch?.({ type: 'addField', name, value: { name, label } });
+      const getInitialValue = () => {
+        if (isNil(initialValues?.[name])) return initialValue;
+        return initialValues?.[name];
+      };
+
+      dispatch?.({
+        type: 'addField',
+        name,
+        value: { name, label, value: getInitialValue() },
+      });
     }, []);
   }
 

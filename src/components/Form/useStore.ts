@@ -6,7 +6,7 @@ export interface FormState {
 
 export interface FieldDetail {
   name?: string;
-  value?: string;
+  value?: unknown;
   rules?: unknown[];
   isValid?: boolean;
   errors?: any[];

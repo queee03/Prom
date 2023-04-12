@@ -5,14 +5,14 @@ import FormContext, { FormContextProps } from './formContext';
 import useStore from './useStore';
 
 type OriginFormProps = React.FormHTMLAttributes<HTMLFormElement>;
-type FormProps = OriginFormProps;
+interface FormProps extends OriginFormProps, Pick<FormContextProps, 'initialValues'> {}
 
 export const Form: React.FC<FormProps> = (props) => {
-  const { children, className, ...restProps } = props;
+  const { children, className, initialValues, ...restProps } = props;
   const { form, fields, dispatch } = useStore();
 
   const classes = classnames(`${PM_PREFIX_CLS}-form`, className);
-  const passedContext: FormContextProps = { fields, dispatch };
+  const passedContext: FormContextProps = { fields, dispatch, initialValues };
 
   return (
     <>
