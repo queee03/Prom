@@ -6,6 +6,15 @@
   border: $input-border-width solid $input-group-addon-border-color;
   border-radius: $input-border-radius;
   overflow: hidden;
+
+  &.no-border {
+    border: none;
+    border-radius: 0;
+    .#{$pm-prefix}-input-inner {
+      box-shadow: none;
+    }
+  }
+
   .icon-wrapper {
     position: absolute;
     height: 100%;
@@ -24,6 +33,7 @@
 .icon-wrapper + .#{$pm-prefix}-input-inner {
   padding-right: 35px;
 }
+
 .#{$pm-prefix}-input-inner {
   width: 100%;
   padding: $input-padding-y $input-padding-x;

@@ -23,6 +23,7 @@ export const Input: React.FC<InputProps> = (props) => {
     {
       [`${PM_PREFIX_CLS}-size-${size}`]: size,
       [`${PM_PREFIX_CLS}-input-group`]: prepend || append,
+      'no-border': props.type && ['hidden', 'checkbox', 'radio', 'range'].includes(props.type),
     },
     className,
   );
