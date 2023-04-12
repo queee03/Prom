@@ -20,8 +20,9 @@ export const Form: React.FC<FormProps> = (props) => {
         <FormContext.Provider value={passedContext}>{children}</FormContext.Provider>
       </form>
       <div>
-        <pre>{JSON.stringify(form)}</pre>
-        <pre>{JSON.stringify(fields)}</pre>
+        <code>{JSON.stringify(form)}</code>
+        <br />
+        <code>{JSON.stringify(fields)}</code>
       </div>
     </>
   );

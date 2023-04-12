@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { Children, useContext, useEffect } from 'react';
 
 import classnames from 'classnames';
 import { PM_PREFIX_CLS } from 'configs/constant';
@@ -11,10 +11,22 @@ interface FormItemProps {
   style?: React.CSSProperties;
   name?: string;
   label?: string;
+  trigger?: string;
+  valuePropName?: string;
+  getValueFromEvent?: (...args: any[]) => string;
 }
 
 export const FormItem: React.FC<FormItemProps> = (props) => {
-  const { className, children, name, label, ...restProps } = props;
+  const {
+    className,
+    children,
+    name,
+    label,
+    trigger,
+    valuePropName,
+    getValueFromEvent,
+    ...restProps
+  } = props;
   const { fields, dispatch } = useContext(FormContext);
 
   const rowClasses = classnames(
@@ -25,28 +37,37 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
     className,
   );
 
-  const fieldState: FieldDetail = fields?.[name!] || {};
-  const { value } = fieldState;
-
-  // 1. 手动的创建一个属性列表，需要有 value 以及 onChange 属性
-  const onValueUpdate = (e) => {
-    dispatch?.({ type: 'updateValue', name, value: e.target.value });
-  };
-  const controlProps: Record<string, unknown> = {
-    // todo: 需自定义
-    value,
-    onChange: onValueUpdate,
-  };
-  // 2. 获取 children 数组的第一个元素
-  // todo: 判断 children 类型，显示警告
+  let renderChildren = children;
   const chlidList = React.Children.toArray(children);
-  const child = chlidList[0] as React.ReactElement;
-  // 3. cloneElement，混合这个child 以及 手动的属性列表
-  const renderChild = React.cloneElement(child, { ...controlProps });
 
-  useEffect(() => {
-    dispatch?.({ type: 'addField', name, value: { name, label } });
-  }, []);
+  // 在有参数 name 且 children 只有 1 个的情况下才注册 field
+  if (name && chlidList.length === 1) {
+    const fieldState: FieldDetail = fields?.[name] || {};
+    const { value } = fieldState;
+
+    // 1. 手动的创建一个属性列表，需要有 value 以及 onChange 属性
+    const onValueUpdate = (e) => {
+      dispatch?.({ type: 'updateValue', name, value: getValueFromEvent!(e) });
+    };
+    const controlProps: Record<string, unknown> = {
+      [valuePropName!]: value,
+      [trigger!]: onValueUpdate,
+    };
+    // 2. 处理 children
+    const child = chlidList[0] as React.ReactElement;
+    if (!React.isValidElement(child)) {
+      console.error('Child component is not a valid React Element');
+    }
+    renderChildren = React.cloneElement(child, { ...controlProps });
+
+    useEffect(() => {
+      dispatch?.({ type: 'addField', name, value: { name, label } });
+    }, []);
+  }
+
+  if (chlidList.length > 1) {
+    console.warn('Warning: Only support one child element in Form.Item, others will be omitted');
+  }
 
   return (
     <div className={rowClasses} {...restProps}>
@@ -55,9 +76,14 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
           <label title={label}>{label}</label>
         </div>
       )}
-      <div className={`${PM_PREFIX_CLS}-form-item-content`}>{renderChild}</div>
+      <div className={`${PM_PREFIX_CLS}-form-item-content`}>{renderChildren}</div>
     </div>
   );
 };
 
+FormItem.defaultProps = {
+  trigger: 'onChange',
+  valuePropName: 'value',
+  getValueFromEvent: (e) => e.target.value,
+};
 export default FormItem;

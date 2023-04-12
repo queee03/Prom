@@ -17,14 +17,21 @@ export default Com;
 export const Default = () => {
   return (
     <Form>
-      <Form.Item name="username" label="username">
+      <Form.Item name="username" label="用户名">
         <Input />
       </Form.Item>
-      <Form.Item name="password" label="password">
+      <Form.Item name="password" label="密码">
         <Input type="password" />
       </Form.Item>
       <Form.Item name="no-label">
         <Input placeholder="no-label" />
+      </Form.Item>
+      <Form.Item
+        name="checkbox"
+        valuePropName="checked"
+        getValueFromEvent={(e) => e.target.checked}
+      >
+        <Input type="checkbox" />
       </Form.Item>
       <Form.Item>
         <Button htmlType="submit" type="primary">
