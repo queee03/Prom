@@ -4,7 +4,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classnames from 'classnames';
 import Icon from 'components/Icon';
 import { PM_PREFIX_CLS } from 'configs/constant';
-import { isNil } from 'utils';
+import { isNil } from 'utils/utils';
 
 type InputSize = 'lg' | 'sm';
 type PendType = string | React.ReactElement;

@@ -4,7 +4,7 @@ import React, { cloneElement, HTMLAttributes, isValidElement, useRef, useState }
 import axios from 'axios';
 import classnames from 'classnames';
 import { PM_PREFIX_CLS } from 'configs/constant';
-import { generateId } from 'utils';
+import { generateId } from 'utils/utils';
 
 import { DraggerProps, UploadFile, UploadListProps, UploadProps } from './interface';
 import UploadList from './uploadList';

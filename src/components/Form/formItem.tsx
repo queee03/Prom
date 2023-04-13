@@ -2,14 +2,12 @@ import React, { useContext, useEffect } from 'react';
 
 import classnames from 'classnames';
 import { PM_PREFIX_CLS } from 'configs/constant';
-import { isNil } from 'utils';
+import { isNil } from 'utils/utils';
 
 import FormContext from './formContext';
 import { FieldDetail } from './useStore';
 
-interface FormItemProps {
-  className?: string;
-  style?: React.CSSProperties;
+interface FormItemProps extends CommonProps {
   name?: string;
   label?: string;
   initialValue?: unknown;
@@ -29,7 +27,7 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
     valuePropName,
     getValueFromEvent,
     ...restProps
-  } = props;
+  } = props as SomeRequired<FormItemProps, 'trigger' | 'valuePropName' | 'getValueFromEvent'>;
   const { fields, dispatch, initialValues } = useContext(FormContext);
 
   const rowClasses = classnames(

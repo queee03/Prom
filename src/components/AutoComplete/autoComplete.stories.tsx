@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { ComponentMeta } from '@storybook/react';
-import { mockPromise } from 'utils';
+import { mockPromise } from 'utils/utils';
 
 import { AutoCompleteProps } from './autoComplete';
 import AutoComplete from './index';

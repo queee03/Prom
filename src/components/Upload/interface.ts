@@ -10,9 +10,7 @@ export interface UploadFile {
   error?: unknown;
 }
 
-export interface UploadProps {
-  className?: string;
-  style?: React.CSSProperties;
+export interface UploadProps extends CommonProps {
   action: string;
   name?: string;
   headers?: Record<string, unknown>;
