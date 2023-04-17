@@ -17,7 +17,12 @@ export default Com;
 export const Default = () => {
   return (
     <Form initialValues={{ username: 'happy', checkbox: false }}>
-      <Form.Item name="username" label="用户名" initialValue="unhappy">
+      <Form.Item
+        name="username"
+        label="用户名"
+        initialValue="unhappy"
+        rules={[{ required: true }, { type: 'email' }]}
+      >
         <Input />
       </Form.Item>
       <Form.Item name="password" label="密码">

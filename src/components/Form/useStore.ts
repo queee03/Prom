@@ -1,15 +1,18 @@
 import { useReducer, useState } from 'react';
 
+import Schema, { RuleItem, Rules, ValidateError } from 'async-validator';
+
 export interface FormState {
   isValid: boolean;
 }
 
 export interface FieldDetail {
+  label?: string;
   name?: string;
   value?: unknown;
-  rules?: unknown[];
+  rules?: RuleItem[];
   isValid?: boolean;
-  errors?: any[];
+  errors?: ValidateError[];
 }
 
 export interface FieldsState {
@@ -17,9 +20,9 @@ export interface FieldsState {
 }
 
 export interface FieldsAction {
-  type: 'addField' | 'updateValue';
+  type: 'addField' | 'updateValue' | 'updateValidateResult';
   name?: string;
-  value: any;
+  detail: FieldDetail;
 }
 
 function fieldReducer(state: FieldsState, action: FieldsAction): FieldsState {
@@ -28,13 +31,22 @@ function fieldReducer(state: FieldsState, action: FieldsAction): FieldsState {
     case 'addField':
       return {
         ...state,
-        [action.name]: action.value,
+        [action.name]: action.detail,
       };
-    case 'updateValue':
+    case 'updateValue': {
+      const { value } = action.detail;
       return {
         ...state,
-        [action.name]: { ...state[action.name], value: action.value },
+        [action.name]: { ...state[action.name], value },
       };
+    }
+    case 'updateValidateResult': {
+      const { isValid, errors } = action.detail;
+      return {
+        ...state,
+        [action.name]: { ...state[action.name], isValid, errors },
+      };
+    }
     default:
       return state;
   }
@@ -44,10 +56,38 @@ function useStore() {
   const [form, setForm] = useState<FormState>({ isValid: true });
   const [fields, dispatch] = useReducer(fieldReducer, {});
 
+  const validateField = async (name: string) => {
+    const { value, rules } = fields[name];
+
+    // 此处拿的 value 未必是最新的，待解决
+    if (rules) {
+      const descriptor: Rules = {
+        [name]: rules,
+      };
+
+      const values = {
+        [name]: value,
+      };
+
+      const validator = new Schema(descriptor);
+      let isValid = true;
+      let errors: ValidateError[] = [];
+      try {
+        await validator.validate(values);
+      } catch (err) {
+        isValid = false;
+        errors = err as ValidateError[];
+      } finally {
+        dispatch({ type: 'updateValidateResult', name, detail: { isValid, errors } });
+      }
+    }
+  };
+
   return {
     form,
     fields,
     dispatch,
+    validateField,
   };
 }
 export default useStore;

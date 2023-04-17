@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 
+import { RuleItem } from 'async-validator';
 import classnames from 'classnames';
 import { PM_PREFIX_CLS } from 'configs/constant';
-import { isNil } from 'utils/utils';
+import { generateTriggerMap, isNil } from 'utils/utils';
 
 import FormContext from './formContext';
 import { FieldDetail } from './useStore';
@@ -14,6 +15,8 @@ interface FormItemProps extends CommonProps {
   trigger?: string;
   valuePropName?: string;
   getValueFromEvent?: (...args: any[]) => string;
+  rules?: RuleItem[];
+  validateTrigger?: string;
 }
 
 export const FormItem: React.FC<FormItemProps> = (props) => {
@@ -26,9 +29,14 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
     trigger,
     valuePropName,
     getValueFromEvent,
+    rules,
+    validateTrigger,
     ...restProps
-  } = props as SomeRequired<FormItemProps, 'trigger' | 'valuePropName' | 'getValueFromEvent'>;
-  const { fields, dispatch, initialValues } = useContext(FormContext);
+  } = props as SomeRequired<
+    FormItemProps,
+    'trigger' | 'valuePropName' | 'getValueFromEvent' | 'validateTrigger'
+  >;
+  const { fields, dispatch, validateField, initialValues } = useContext(FormContext);
 
   const rowClasses = classnames(
     `${PM_PREFIX_CLS}-form-item-row`,
@@ -48,12 +56,20 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
 
     // 1. 手动的创建一个属性列表，需要有 value 以及 onChange 属性
     const onValueUpdate = (e) => {
-      dispatch?.({ type: 'updateValue', name, value: getValueFromEvent!(e) });
+      dispatch?.({ type: 'updateValue', name, detail: { value: getValueFromEvent!(e) } });
     };
+    const onValueValidate = () => validateField?.(name);
+
+    const events = [
+      { trigger, func: onValueUpdate },
+      rules && { trigger: validateTrigger, func: onValueValidate },
+    ];
+
     const controlProps: Record<string, unknown> = {
       [valuePropName!]: value,
-      [trigger!]: onValueUpdate,
+      ...generateTriggerMap(events),
     };
+
     // 2. 处理 children
     const child = chlidList[0] as React.ReactElement;
     if (!React.isValidElement(child)) {
@@ -70,7 +86,7 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
       dispatch?.({
         type: 'addField',
         name,
-        value: { name, label, value: getInitialValue() },
+        detail: { name, label, value: getInitialValue(), rules },
       });
     }, []);
   }
@@ -95,5 +111,6 @@ FormItem.defaultProps = {
   trigger: 'onChange',
   valuePropName: 'value',
   getValueFromEvent: (e) => e.target.value,
+  validateTrigger: 'onBlur',
 };
 export default FormItem;

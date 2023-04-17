@@ -9,10 +9,10 @@ interface FormProps extends OriginFormProps, Pick<FormContextProps, 'initialValu
 
 export const Form: React.FC<FormProps> = (props) => {
   const { children, className, initialValues, ...restProps } = props;
-  const { form, fields, dispatch } = useStore();
+  const { form, fields, dispatch, validateField } = useStore();
 
   const classes = classnames(`${PM_PREFIX_CLS}-form`, className);
-  const passedContext: FormContextProps = { fields, dispatch, initialValues };
+  const passedContext: FormContextProps = { fields, dispatch, validateField, initialValues };
 
   return (
     <>
