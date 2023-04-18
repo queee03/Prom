@@ -1,9 +1,12 @@
 // import { useState } from 'react';
 // import { action } from '@storybook/addon-actions';
+import { useRef } from 'react';
+
 import { ComponentMeta } from '@storybook/react';
 import Button from 'components/Button';
 import Input from 'components/Input';
 
+import { FormInstance } from './form';
 import Form from './index';
 
 const Com: ComponentMeta<typeof Form> = {
@@ -15,21 +18,34 @@ const Com: ComponentMeta<typeof Form> = {
 export default Com;
 
 export const Default = () => {
+  const formRef = useRef<FormInstance | null>(null);
+
   return (
-    <Form initialValues={{ username: 'happy', checkbox: false }}>
+    <Form ref={formRef} initialValues={{ username: 'happy', checkbox: false }}>
       <Form.Item
         name="username"
         label="用户名"
         initialValue="unhappy"
-        rules={[{ required: true }, { min: 2 }]}
+        rules={[{ required: true }, { min: 4, max: 12 }]}
       >
         <Input />
       </Form.Item>
       <Form.Item name="password" label="密码">
         <Input type="password" />
       </Form.Item>
-      <Form.Item name="no-label">
-        <Input placeholder="no-label" />
+      <Form.Item
+        name="confirm-password"
+        rules={[
+          {
+            validator: (_, value) => {
+              const password = formRef.current?.getFieldValue('password');
+              return password === value;
+            },
+            message: '两次输入的密码不一致',
+          },
+        ]}
+      >
+        <Input placeholder="确认密码" />
       </Form.Item>
       <Form.Item
         name="checkbox"
