@@ -23,6 +23,8 @@ export const Input: React.FC<InputProps> = (props) => {
     {
       [`${PM_PREFIX_CLS}-size-${size}`]: size,
       [`${PM_PREFIX_CLS}-input-group`]: prepend || append,
+      [`${PM_PREFIX_CLS}-input-group-prepend`]: prepend,
+      [`${PM_PREFIX_CLS}-input-group-append`]: append,
       'no-border': props.type && ['hidden', 'checkbox', 'radio', 'range'].includes(props.type),
     },
     className,
@@ -40,14 +42,14 @@ export const Input: React.FC<InputProps> = (props) => {
 
   return (
     <div className={classes} data-testid={`${PM_PREFIX_CLS}-input`}>
-      {prepend && <div className={`${PM_PREFIX_CLS}-input-group-prepend`}>{prepend}</div>}
+      {prepend && <div className={`${PM_PREFIX_CLS}-input-prepend`}>{prepend}</div>}
       {icon && (
         <div className="icon-wrapper">
           <Icon icon={icon} />
         </div>
       )}
       <input className={`${PM_PREFIX_CLS}-input-inner`} disabled={disabled} {...restProps} />
-      {append && <div className={`${PM_PREFIX_CLS}-input-group-append`}>{append}</div>}
+      {append && <div className={`${PM_PREFIX_CLS}-input-append`}>{append}</div>}
     </div>
   );
 };

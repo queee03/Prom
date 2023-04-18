@@ -3,8 +3,8 @@
   width: 100%;
   margin-bottom: 30px;
   position: relative;
-  border: $input-border-width solid $input-group-addon-border-color;
-  border-radius: $input-border-radius;
+  // border: $input-border-width solid $input-group-addon-border-color;
+  // border-radius: $input-border-radius;
   overflow: hidden;
 
   &.no-border {
@@ -30,6 +30,7 @@
     }
   }
 }
+
 .icon-wrapper + .#{$pm-prefix}-input-inner {
   padding-right: 35px;
 }
@@ -44,8 +45,10 @@
   color: $input-color;
   background-color: $input-bg;
   background-clip: padding-box;
-  border: none;
-  border-radius: 0;
+  // border: none;
+  // border-radius: 0;
+  border: $input-border-width solid $input-group-addon-border-color;
+  border-radius: $input-border-radius;
   box-shadow: $input-box-shadow;
   transition: $input-transition;
 
@@ -70,8 +73,25 @@
     opacity: 1;
   }
 }
-.#{$pm-prefix}-input-group-prepend,
+
+.#{$pm-prefix}-input-group-prepend {
+  .#{$pm-prefix}-input-inner {
+    // border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
 .#{$pm-prefix}-input-group-append {
+  .#{$pm-prefix}-input-inner {
+    // border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.#{$pm-prefix}-input-prepend,
+.#{$pm-prefix}-input-append {
   display: flex;
   align-items: center;
   padding: $input-padding-y $input-padding-x;
@@ -83,20 +103,23 @@
   text-align: center;
   white-space: nowrap;
   background-color: $input-group-addon-bg;
-  border: 0;
+  border: $input-border-width solid $input-group-addon-border-color;
 }
 
-.#{$pm-prefix}-input-group-prepend {
-  border-right: $input-border-width solid $input-group-addon-border-color;
+.#{$pm-prefix}-input-prepend {
+  border-right: none;
+  border-top-left-radius: $input-border-radius;
+  border-bottom-left-radius: $input-border-radius;
 }
 
-.#{$pm-prefix}-input-group-append {
-  border-left: $input-border-width solid $input-group-addon-border-color;
-}
-
-.#{$pm-prefix}-input-group-append + .btn {
-  padding: 0;
-  border: 0;
+.#{$pm-prefix}-input-append {
+  border-left: none;
+  border-top-right-radius: $input-border-radius;
+  border-bottom-right-radius: $input-border-radius;
+  & + .btn {
+    padding: 0;
+    border: 0;
+  }
 }
 
 .#{$pm-prefix}-size-sm .#{$pm-prefix}-input-inner {

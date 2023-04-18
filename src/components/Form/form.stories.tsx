@@ -21,7 +21,7 @@ export const Default = () => {
         name="username"
         label="用户名"
         initialValue="unhappy"
-        rules={[{ required: true }, { type: 'email' }]}
+        rules={[{ required: true }, { min: 2 }]}
       >
         <Input />
       </Form.Item>

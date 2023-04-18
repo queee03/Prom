@@ -25,6 +25,11 @@ export interface FieldsAction {
   detail: FieldDetail;
 }
 
+export interface ValidateErrorDetail extends Error {
+  errors: ValidateError[];
+  fields: Record<string, ValidateError[]>;
+}
+
 function fieldReducer(state: FieldsState, action: FieldsAction): FieldsState {
   if (!action.name) return state;
   switch (action.type) {
@@ -76,7 +81,7 @@ function useStore() {
         await validator.validate(values);
       } catch (err) {
         isValid = false;
-        errors = err as ValidateError[];
+        errors = (err as ValidateErrorDetail).errors;
       } finally {
         dispatch({ type: 'updateValidateResult', name, detail: { isValid, errors } });
       }

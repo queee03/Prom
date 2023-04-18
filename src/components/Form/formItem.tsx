@@ -20,6 +20,7 @@ interface FormItemProps extends CommonProps {
 }
 
 export const FormItem: React.FC<FormItemProps> = (props) => {
+  /* ======================== 获取基础参数 ======================== */
   const {
     className,
     children,
@@ -37,22 +38,31 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
     'trigger' | 'valuePropName' | 'getValueFromEvent' | 'validateTrigger'
   >;
   const { fields, dispatch, validateField, initialValues } = useContext(FormContext);
+  const fieldState: FieldDetail = fields?.[name!] || {};
+  const { value, errors } = fieldState;
 
+  /* ======================== 分析参数 ======================== */
+  const hasError = errors && errors.length > 0;
+  const isRequired = rules?.some((rule) => rule.required);
   const rowClasses = classnames(
     `${PM_PREFIX_CLS}-form-item-row`,
-    {
-      'no-label': !label,
-    },
+    { 'no-label': !label },
     className,
   );
+  const labelClasses = classnames({
+    [`${PM_PREFIX_CLS}-form-item-required`]: isRequired,
+  });
+  const itemClasses = classnames(`${PM_PREFIX_CLS}-form-item-control`, {
+    'has-error': hasError,
+  });
 
+  /* ======================== 处理 children ======================== */
   let renderChildren = children;
   const chlidList = React.Children.toArray(children);
 
-  // 在有参数 name 且 children 只有 1 个的情况下才注册 field
+  // 在有参数 name 且 child 只有 1 个的情况下才注册 field
   if (name && chlidList.length === 1) {
-    const fieldState: FieldDetail = fields?.[name] || {};
-    const { value } = fieldState;
+    // 0. 获取并分析数据
 
     // 1. 手动的创建一个属性列表，需要有 value 以及 onChange 属性
     const onValueUpdate = (e) => {
@@ -91,18 +101,29 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
     }, []);
   }
 
+  // 多个 chlid 的情况
   if (chlidList.length > 1) {
     console.warn('Warning: Only support one child element in Form.Item, others will be omitted');
   }
 
+  /* ======================== Return ======================== */
   return (
     <div className={rowClasses} {...restProps}>
       {label && (
         <div className={`${PM_PREFIX_CLS}-form-item-label`}>
-          <label title={label}>{label}</label>
+          <label className={labelClasses} title={label}>
+            {label}
+          </label>
         </div>
       )}
-      <div className={`${PM_PREFIX_CLS}-form-item-content`}>{renderChildren}</div>
+      <div className={`${PM_PREFIX_CLS}-form-item-content`}>
+        <div className={itemClasses}>{renderChildren}</div>
+        {hasError && (
+          <div className={`${PM_PREFIX_CLS}-form-item-explain`}>
+            <span>{errors[0].message}</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

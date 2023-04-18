@@ -30,7 +30,7 @@
       .#{$pm-prefix}-input-wrapper {
         margin-bottom: 0;
       }
-      .#{$pm-prefix}-form-item-has-error.#{$pm-prefix}-form-item-control {
+      .#{$pm-prefix}-form-item-control.has-error {
         .#{$pm-prefix}-input-inner {
           border: 1px solid $danger;
           &:focus {
