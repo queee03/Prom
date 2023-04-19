@@ -1,16 +1,18 @@
 import { useReducer, useState } from 'react';
 
 import Schema, { RuleItem, Rules, ValidateError } from 'async-validator';
+import { each, mapValues } from 'lodash';
 
-export type CustomRuleFunction = ({ getFieldValue }) => RuleItem;
-export type CustomRule = RuleItem | CustomRuleFunction;
-export interface ValidateErrorDetail extends Error {
+// async-validator 验证不通过时默认返回的 error 类型
+export interface ValidateCatchError extends Error {
   errors: ValidateError[];
   fields: Record<string, ValidateError[]>;
 }
 
 export interface FormState {
+  isSubmitting: boolean;
   isValid: boolean;
+  errors: Record<string, ValidateError[]>;
 }
 
 export interface FieldDetail {
@@ -29,7 +31,7 @@ export interface FieldsState {
 export interface FieldsAction {
   type: 'addField' | 'updateValue' | 'updateValidateResult';
   name?: string;
-  detail: FieldDetail;
+  detail: Partial<FieldDetail>;
 }
 
 function fieldReducer(state: FieldsState, action: FieldsAction): FieldsState {
@@ -60,12 +62,14 @@ function fieldReducer(state: FieldsState, action: FieldsAction): FieldsState {
 }
 
 function useStore() {
-  const [form, setForm] = useState<FormState>({ isValid: true });
+  const [form, setForm] = useState<FormState>({ isValid: true, isSubmitting: false, errors: {} });
   const [fields, dispatch] = useReducer(fieldReducer, {});
 
   const getFieldValue = (key: string) => fields[key] && fields[key].value;
 
   const validateField = async (name: string) => {
+    let isValid = true;
+    let errors: ValidateError[] = [];
     const { value, rules } = fields[name];
 
     // 此处拿的 value 未必是最新的，待解决
@@ -79,17 +83,51 @@ function useStore() {
       };
 
       const validator = new Schema(descriptor);
-      let isValid = true;
-      let errors: ValidateError[] = [];
       try {
         await validator.validate(values);
       } catch (err) {
         isValid = false;
-        errors = (err as ValidateErrorDetail).errors;
+        errors = (err as ValidateCatchError).errors;
       } finally {
         dispatch({ type: 'updateValidateResult', name, detail: { isValid, errors } });
       }
     }
+  };
+
+  const validateAllFields = async () => {
+    setForm({ ...form, isSubmitting: true });
+
+    let isValid = true;
+    let errors: Record<string, ValidateError[]> = {};
+
+    const values = mapValues(fields, 'value'); // { username: 'abc' }
+    const descriptor = mapValues(fields, (item) => item.rules || []); // { username: [..] }
+    const validator = new Schema(descriptor);
+
+    try {
+      await validator.validate(values);
+    } catch (err) {
+      isValid = false;
+      errors = (err as ValidateCatchError).fields;
+      each(fields, (field, name) => {
+        // errors 中有对应的 key
+        if (errors[name]) {
+          const itemErrors = errors[name];
+          dispatch({
+            type: 'updateValidateResult',
+            name,
+            detail: { isValid: false, errors: itemErrors },
+          });
+        } else if (field.rules && field.rules.length > 0) {
+          // 该 key 没有对应的 errors，却有对应的 rules
+          dispatch({ type: 'updateValidateResult', name, detail: { isValid: true, errors: [] } });
+        }
+      });
+    } finally {
+      setForm({ ...form, isSubmitting: false, isValid, errors });
+    }
+
+    return { isValid, errors, values };
   };
 
   return {
@@ -97,6 +135,7 @@ function useStore() {
     fields,
     dispatch,
     validateField,
+    validateAllFields,
     getFieldValue,
   };
 }

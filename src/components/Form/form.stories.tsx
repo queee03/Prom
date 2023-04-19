@@ -21,7 +21,16 @@ export const Default = () => {
   const formRef = useRef<FormInstance | null>(null);
 
   return (
-    <Form ref={formRef} initialValues={{ username: 'happy', checkbox: false }}>
+    <Form
+      ref={formRef}
+      initialValues={{ username: 'happy', checkbox: false }}
+      onFinish={(values) => {
+        console.log('onFinish', values);
+      }}
+      onFinishFailed={(values, errors) => {
+        console.log('onFinishFailed', values, errors);
+      }}
+    >
       <Form.Item
         name="username"
         label="用户名"
