@@ -2,12 +2,9 @@ import { createContext } from 'react';
 
 import useStore from './useStore';
 
-export interface FormContextProps
-  extends Partial<
-    Pick<ReturnType<typeof useStore>, 'fields' | 'dispatch' | 'validateField' | 'getFieldValue'>
-  > {
-  initialValues?: Object;
-}
+export type FormContextProps = Partial<
+  Pick<ReturnType<typeof useStore>, 'initialValues' | 'fields' | 'dispatch' | 'validateField'>
+>;
 
 const FormContext = createContext<FormContextProps>({});
 

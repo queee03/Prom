@@ -68,6 +68,7 @@ export const Default = () => {
         <Button htmlType="submit" type="primary">
           Submit
         </Button>
+        <Button onClick={() => formRef.current?.resetFields()}>Reset</Button>
       </Form.Item>
     </Form>
   );

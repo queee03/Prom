@@ -18,6 +18,7 @@ export interface FormState {
 export interface FieldDetail {
   label?: string;
   name?: string;
+  initialValue?: unknown;
   value?: unknown;
   rules?: RuleItem[];
   isValid?: boolean;
@@ -61,11 +62,28 @@ function fieldReducer(state: FieldsState, action: FieldsAction): FieldsState {
   }
 }
 
-function useStore() {
+function useStore(initialValues?: Object) {
   const [form, setForm] = useState<FormState>({ isValid: true, isSubmitting: false, errors: {} });
   const [fields, dispatch] = useReducer(fieldReducer, {});
 
+  const getFieldsValue = () => mapValues(fields, 'value');
   const getFieldValue = (key: string) => fields[key] && fields[key].value;
+  const setFieldValue = (name: string, value: any) => {
+    if (name in fields) {
+      dispatch({ type: 'updateValue', name, detail: { value } });
+    }
+  };
+  const resetFields = () => {
+    each(fields, (field, name) => {
+      dispatch({
+        type: 'updateValue',
+        name,
+        detail: { value: initialValues?.[name] || field.initialValue },
+      });
+      dispatch({ type: 'updateValidateResult', name, detail: { isValid: true, errors: [] } });
+      setForm({ ...form, isSubmitting: false, isValid: true, errors: {} });
+    });
+  };
 
   const validateField = async (name: string) => {
     let isValid = true;
@@ -131,12 +149,16 @@ function useStore() {
   };
 
   return {
+    initialValues,
     form,
     fields,
     dispatch,
-    validateField,
-    validateAllFields,
+    getFieldsValue,
     getFieldValue,
+    setFieldValue,
+    resetFields,
+    validateAllFields,
+    validateField,
   };
 }
 export default useStore;

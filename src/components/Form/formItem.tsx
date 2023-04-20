@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 
-import { RuleItem } from 'async-validator';
 import classnames from 'classnames';
 import { PM_PREFIX_CLS } from 'configs/constant';
 import { generateTriggerMap, isNil } from 'utils/utils';
@@ -8,14 +7,12 @@ import { generateTriggerMap, isNil } from 'utils/utils';
 import FormContext from './formContext';
 import { FieldDetail } from './useStore';
 
-interface FormItemProps extends CommonProps {
-  name?: string;
-  label?: string;
-  initialValue?: unknown;
+interface FormItemProps
+  extends CommonProps,
+    Pick<FieldDetail, 'label' | 'name' | 'initialValue' | 'rules'> {
   trigger?: string;
   valuePropName?: string;
   getValueFromEvent?: (...args: any[]) => string;
-  rules?: RuleItem[];
   validateTrigger?: string;
 }
 
@@ -96,7 +93,7 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
       dispatch?.({
         type: 'addField',
         name,
-        detail: { name, label, value: getInitialValue(), rules },
+        detail: { label, name, initialValue, value: getInitialValue(), rules },
       });
     }, []);
   }

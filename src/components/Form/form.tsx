@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle } from 'react';
+import { forwardRef, ReactNode, useImperativeHandle } from 'react';
 
 import classnames from 'classnames';
 import { PM_PREFIX_CLS } from 'configs/constant';
@@ -11,15 +11,33 @@ export interface FormProps extends OriginFormProps, Pick<FormContextProps, 'init
   onFinish?: (values: Record<string, unknown>) => void;
   onFinishFailed?: (values: Record<string, unknown>, errors: ValidateCatchError['fields']) => void;
 }
-export type FormInstance = Required<Pick<FormContextProps, 'getFieldValue'>>;
+export type FormInstance = Pick<
+  ReturnType<typeof useStore>,
+  | 'getFieldsValue'
+  | 'getFieldValue'
+  | 'setFieldValue'
+  | 'resetFields'
+  | 'validateAllFields'
+  | 'validateField'
+>;
 
 export const Form = forwardRef<FormInstance, FormProps>((props, ref) => {
   const { children, className, initialValues, onSubmit, onFinish, onFinishFailed, ...restProps } =
     props;
-  const { form, fields, dispatch, validateField, validateAllFields, getFieldValue } = useStore();
+  const {
+    form,
+    fields,
+    dispatch,
+    getFieldsValue,
+    getFieldValue,
+    setFieldValue,
+    resetFields,
+    validateAllFields,
+    validateField,
+  } = useStore(initialValues);
 
   const classes = classnames(`${PM_PREFIX_CLS}-form`, className);
-  const passedContext: FormContextProps = { fields, dispatch, validateField, initialValues };
+  const passedContext: FormContextProps = { initialValues, fields, dispatch, validateField };
 
   const handleSubmit: FormProps['onSubmit'] = async (e) => {
     e.preventDefault();
@@ -34,20 +52,25 @@ export const Form = forwardRef<FormInstance, FormProps>((props, ref) => {
   };
 
   useImperativeHandle(ref, () => ({
+    getFieldsValue,
     getFieldValue,
+    setFieldValue,
+    resetFields,
+    validateAllFields,
+    validateField,
   }));
 
+  let childrenNode: ReactNode;
+  if (typeof children === 'function') {
+    childrenNode = children(form);
+  } else {
+    childrenNode = children;
+  }
+
   return (
-    <>
-      <form className={classes} onSubmit={handleSubmit} {...restProps}>
-        <FormContext.Provider value={passedContext}>{children}</FormContext.Provider>
-      </form>
-      <div>
-        <code>{JSON.stringify(form)}</code>
-        <br />
-        <code>{JSON.stringify(fields)}</code>
-      </div>
-    </>
+    <form className={classes} onSubmit={handleSubmit} {...restProps}>
+      <FormContext.Provider value={passedContext}>{childrenNode}</FormContext.Provider>
+    </form>
   );
 });
 
