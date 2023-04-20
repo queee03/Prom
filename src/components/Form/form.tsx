@@ -11,30 +11,16 @@ export interface FormProps extends OriginFormProps, Pick<FormContextProps, 'init
   onFinish?: (values: Record<string, unknown>) => void;
   onFinishFailed?: (values: Record<string, unknown>, errors: ValidateCatchError['fields']) => void;
 }
-export type FormInstance = Pick<
+export type FormInstance = Omit<
   ReturnType<typeof useStore>,
-  | 'getFieldsValue'
-  | 'getFieldValue'
-  | 'setFieldValue'
-  | 'resetFields'
-  | 'validateAllFields'
-  | 'validateField'
+  'initialValues' | 'form' | 'fields' | 'dispatch'
 >;
 
 export const Form = forwardRef<FormInstance, FormProps>((props, ref) => {
   const { children, className, initialValues, onSubmit, onFinish, onFinishFailed, ...restProps } =
     props;
-  const {
-    form,
-    fields,
-    dispatch,
-    getFieldsValue,
-    getFieldValue,
-    setFieldValue,
-    resetFields,
-    validateAllFields,
-    validateField,
-  } = useStore(initialValues);
+  const { initialValues: _, form, fields, dispatch, ...restStore } = useStore(initialValues);
+  const { validateAllFields, validateField } = restStore;
 
   const classes = classnames(`${PM_PREFIX_CLS}-form`, className);
   const passedContext: FormContextProps = { initialValues, fields, dispatch, validateField };
@@ -52,12 +38,7 @@ export const Form = forwardRef<FormInstance, FormProps>((props, ref) => {
   };
 
   useImperativeHandle(ref, () => ({
-    getFieldsValue,
-    getFieldValue,
-    setFieldValue,
-    resetFields,
-    validateAllFields,
-    validateField,
+    ...restStore,
   }));
 
   let childrenNode: ReactNode;
