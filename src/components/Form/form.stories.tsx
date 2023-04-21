@@ -35,6 +35,7 @@ export const Default = () => {
         name="username"
         label="用户名"
         initialValue="unhappy"
+        validateTrigger="onChange"
         rules={[{ required: true }, { min: 4, max: 12 }]}
       >
         <Input />

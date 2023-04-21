@@ -12,7 +12,7 @@ interface FormItemProps
     Pick<FieldDetail, 'label' | 'name' | 'initialValue' | 'rules'> {
   trigger?: string;
   valuePropName?: string;
-  getValueFromEvent?: (...args: any[]) => string;
+  getValueFromEvent?: (...args: any[]) => unknown;
   validateTrigger?: string;
 }
 
@@ -63,9 +63,9 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
 
     // 1. 手动的创建一个属性列表，需要有 value 以及 onChange 属性
     const onValueUpdate = (e) => {
-      dispatch?.({ type: 'updateValue', name, detail: { value: getValueFromEvent!(e) } });
+      dispatch?.({ type: 'updateValue', name, detail: { value: getValueFromEvent(e) } });
     };
-    const onValueValidate = () => validateField?.(name);
+    const onValueValidate = (e) => validateField?.(name, getValueFromEvent(e));
 
     const events = [
       { trigger, func: onValueUpdate },
@@ -73,7 +73,7 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
     ];
 
     const controlProps: Record<string, unknown> = {
-      [valuePropName!]: value,
+      [valuePropName]: value,
       ...generateTriggerMap(events),
     };
 

@@ -37,6 +37,7 @@ export interface FieldsAction {
 
 function fieldReducer(state: FieldsState, action: FieldsAction): FieldsState {
   if (!action.name) return state;
+
   switch (action.type) {
     case 'addField':
       return {
@@ -85,10 +86,10 @@ function useStore(initialValues?: Object) {
     });
   };
 
-  const validateField = async (name: string) => {
+  const validateField = async (name: string, value) => {
     let isValid = true;
     let errors: ValidateError[] = [];
-    const { value, rules } = fields[name];
+    const { rules } = fields[name];
 
     // 此处拿的 value 未必是最新的，待解决
     if (rules) {
