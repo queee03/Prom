@@ -1,7 +1,8 @@
 // import { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { ComponentMeta } from '@storybook/react';
-import Button from 'components/Button';
+
+import Button from '@/components/Button';
 
 import Upload from './index';
 

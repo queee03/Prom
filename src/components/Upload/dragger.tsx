@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
 import classnames from 'classnames';
-import { PM_PREFIX_CLS } from 'configs/constant';
+
+import { PM_PREFIX_CLS } from '@/configs/constant';
 
 import { DraggerProps } from './interface';
 

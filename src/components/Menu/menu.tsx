@@ -1,7 +1,8 @@
 import React, { cloneElement, FunctionComponentElement, useState } from 'react';
 
 import classnames from 'classnames';
-import { PM_PREFIX_CLS } from 'configs/constant';
+
+import { PM_PREFIX_CLS } from '@/configs/constant';
 
 import MenuContext, { MenuContextProps, MenuIndex } from './menuContext';
 import { MenuItemProps } from './menuItem';

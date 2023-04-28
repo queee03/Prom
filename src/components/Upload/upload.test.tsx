@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 
 import Upload from './index';
-// import { PM_PREFIX_CLS } from 'configs/constant';
+// import { PM_PREFIX_CLS } from '@/configs/constant';
 import { UploadProps } from './interface';
 
 jest.mock('../Icon/icon', () => {

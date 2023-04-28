@@ -2,9 +2,10 @@ import React from 'react';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classnames from 'classnames';
-import Icon from 'components/Icon';
-import { PM_PREFIX_CLS } from 'configs/constant';
 import { isNil } from 'utils/utils';
+
+import Icon from '@/components/Icon';
+import { PM_PREFIX_CLS } from '@/configs/constant';
 
 type InputSize = 'lg' | 'sm';
 type PendType = string | React.ReactElement;

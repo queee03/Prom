@@ -3,8 +3,9 @@
 import { useRef } from 'react';
 
 import { ComponentMeta } from '@storybook/react';
-import Button from 'components/Button';
-import Input from 'components/Input';
+
+import Button from '@/components/Button';
+import Input from '@/components/Input';
 
 import { FormInstance } from './form';
 import Form from './index';

@@ -1,6 +1,7 @@
 import { cleanup, render, RenderResult, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { PM_PREFIX_CLS } from 'configs/constant';
+
+import { PM_PREFIX_CLS } from '@/configs/constant';
 
 import Menu from './index';
 import { MenuProps } from './menu';

@@ -1,7 +1,8 @@
 import { forwardRef, ReactNode, useImperativeHandle } from 'react';
 
 import classnames from 'classnames';
-import { PM_PREFIX_CLS } from 'configs/constant';
+
+import { PM_PREFIX_CLS } from '@/configs/constant';
 
 import FormContext, { FormContextProps } from './formContext';
 import useStore, { ValidateCatchError } from './useStore';

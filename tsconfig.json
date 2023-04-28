@@ -2,15 +2,15 @@
   "include": ["src/**/*"],
   "compilerOptions": {
     "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "outDir": "./dist/js",
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
     "target": "es5",
     "jsx": "react-jsx",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

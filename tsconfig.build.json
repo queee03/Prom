@@ -1,11 +1,25 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "outDir": "build",
     "module": "esnext",
     "target": "es5",
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
     "declaration": true,
-    "jsx": "react-jsx"
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src"],
-  "exclude": ["src/**/*.test.tsx", "src/**/*.stories.tsx"]
+  "exclude": [
+    ".storybook",
+    "build",
+    "dist",
+    "node_modules",
+    "src/**/*.test.tsx",
+    "src/**/*.stories.tsx"
+  ]
 }

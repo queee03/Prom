@@ -2,7 +2,8 @@ import { config } from 'react-transition-group';
 
 import { render, RenderResult, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { PM_PREFIX_CLS } from 'configs/constant';
+
+import { PM_PREFIX_CLS } from '@/configs/constant';
 
 import { AutoCompleteProps, OptionType } from './autoComplete';
 import AutoComplete from './index';

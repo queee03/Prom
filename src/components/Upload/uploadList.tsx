@@ -1,7 +1,8 @@
 import classnames from 'classnames';
-import Icon from 'components/Icon';
-import Progress from 'components/Progress';
-import { PM_PREFIX_CLS } from 'configs/constant';
+
+import Icon from '@/components/Icon';
+import Progress from '@/components/Progress';
+import { PM_PREFIX_CLS } from '@/configs/constant';
 
 import { UploadFileStatus, UploadListProps } from './interface';
 

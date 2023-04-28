@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 
 import classnames from 'classnames';
-import { PM_PREFIX_CLS } from 'configs/constant';
 import { generateTriggerMap, isNil } from 'utils/utils';
+
+import { PM_PREFIX_CLS } from '@/configs/constant';
 
 import FormContext from './formContext';
 import { FieldDetail } from './useStore';

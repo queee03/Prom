@@ -1,9 +1,10 @@
 import React, { cloneElement, FunctionComponentElement, useContext, useState } from 'react';
 
 import classnames from 'classnames';
-import Icon from 'components/Icon';
-import Transition from 'components/Transition';
-import { PM_PREFIX_CLS } from 'configs/constant';
+
+import Icon from '@/components/Icon';
+import Transition from '@/components/Transition';
+import { PM_PREFIX_CLS } from '@/configs/constant';
 
 import MenuContext, { MenuIndex } from './menuContext';
 import { MenuItemProps } from './menuItem';

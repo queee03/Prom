@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import classnames from 'classnames';
-import Icon from 'components/Icon';
-import Input from 'components/Input';
-import { InputProps } from 'components/Input/input';
-import Transition from 'components/Transition';
-import { PM_PREFIX_CLS } from 'configs/constant';
 import { useDebounce } from 'hooks';
+
+import Icon from '@/components/Icon';
+import Input from '@/components/Input';
+import { InputProps } from '@/components/Input/input';
+import Transition from '@/components/Transition';
+import { PM_PREFIX_CLS } from '@/configs/constant';
 
 export interface OptionType {
   label?: string | JSX.Element;

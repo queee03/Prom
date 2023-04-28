@@ -1,7 +1,8 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { PM_PREFIX_CLS } from 'configs/constant';
+
+import { PM_PREFIX_CLS } from '@/configs/constant';
 
 export type ButtonSize = 'large' | 'small';
 enum ButtonSizeMap {

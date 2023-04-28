@@ -1,6 +1,7 @@
 import { cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { PM_PREFIX_CLS } from 'configs/constant';
+
+import { PM_PREFIX_CLS } from '@/configs/constant';
 
 import Input from './index';
 import { InputProps } from './input';
