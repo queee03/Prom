@@ -116,3 +116,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 ### `storybook`
 
 文档
+
+### `rimraf`
+
+跨平台命令行，用于删除文件

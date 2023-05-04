@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
+    "clean": "rimraf ./build",
+    "build": "npm run clean && npm run build-ts && npm run build-css",
     "build-ts": "tsc -p tsconfig.build.json",
+    "build-css": "node-sass ./src/styles/index.scss ./build/index.css",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },
@@ -79,6 +81,7 @@
     "prettier": "^2.8.3",
     "prop-types": "^15.8.1",
     "react-app-rewired": "^2.2.1",
+    "rimraf": "^5.0.0",
     "stylelint-config-ali": "^0.4.2",
     "webpack": "^5.75.0"
   }
