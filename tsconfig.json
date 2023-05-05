@@ -1,9 +1,9 @@
 {
   "include": ["src/**/*"],
   "compilerOptions": {
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["src/*"]
     },
     "outDir": "./dist/js",
     "lib": ["dom", "dom.iterable", "esnext"],

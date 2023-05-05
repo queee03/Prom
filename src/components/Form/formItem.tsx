@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 
 import classnames from 'classnames';
-import { generateTriggerMap, isNil } from 'utils/utils';
+import { generateTriggerMap, isNil } from '@/utils/utils';
 
 import { PM_PREFIX_CLS } from '@/configs/constant';
 
