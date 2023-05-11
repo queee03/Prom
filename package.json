@@ -1,6 +1,6 @@
 {
   "name": "prom-ui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "description": "React components library",
   "author": "Kuku",
@@ -23,15 +23,17 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "react-app-rewired start",
-    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
+    "test": "react-app-rewired test",
+    "test:nowatch": "cross-env CI=true react-app-rewired test",
+    "lint": "eslint --ext .js,.ts,.tsx src",
     "clean": "rimraf ./dist",
-    "build": "npm run clean && npm run build-ts && npm run build-css",
-    "build-ts": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
-    "build-css": "node-sass ./src/styles/index.scss ./dist/index.css",
+    "build": "npm run clean && npm run build:ts && npm run build:css",
+    "build:ts": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "build:css": "node-sass ./src/styles/index.scss ./dist/index.css",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
-    "prepublish": "npm run build"
+    "build:storybook": "build:storybook -s public",
+    "prepublishOnly": "npm run test:nowatch && npm run lint && npm run build"
   },
   "browserslist": {
     "production": [
@@ -47,6 +49,7 @@
   },
   "jest": {
     "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1",
       "axios": "axios/dist/node/axios.cjs"
     }
   },
@@ -89,6 +92,7 @@
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "cross-env": "^7.0.3",
     "customize-cra": "^1.0.0",
     "eslint": "^8.33.0",
     "eslint-config-ali": "^14.0.2",
@@ -97,6 +101,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-storybook": "^0.6.10",
+    "husky": "^8.0.0",
     "node-sass": "^8.0.0",
     "prettier": "^2.8.3",
     "prop-types": "^15.8.1",
