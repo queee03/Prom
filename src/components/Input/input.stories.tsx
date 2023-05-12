@@ -5,7 +5,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import Input from './index';
 
 const Com: ComponentMeta<typeof Input> = {
-  title: 'Input',
+  title: 'Components/Input',
   component: Input,
   decorators: [(Story) => <div style={{ width: 350 }}>{Story()}</div>],
 };

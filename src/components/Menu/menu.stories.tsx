@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import Menu from './index';
 
 const Com: ComponentMeta<typeof Menu> = {
-  title: 'Menu',
+  title: 'Components/Menu',
   component: Menu,
   subcomponents: { Item: Menu.Item, SubMenu: Menu.SubMenu },
   argTypes: {

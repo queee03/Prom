@@ -11,7 +11,7 @@ import { FormInstance } from './form';
 import Form from './index';
 
 const Com: ComponentMeta<typeof Form> = {
-  title: 'Form',
+  title: 'Components/Form',
   component: Form,
   subcomponents: { Item: Form.Item },
   decorators: [(Story) => <div style={{ width: 500 }}>{Story()}</div>],

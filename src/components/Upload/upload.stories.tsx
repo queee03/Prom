@@ -19,7 +19,7 @@ const renameFile = (file: File) => {
 };
 
 const Com: ComponentMeta<typeof Upload> = {
-  title: 'Upload',
+  title: 'Components/Upload',
   component: Upload,
 };
 export default Com;

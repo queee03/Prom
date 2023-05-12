@@ -8,7 +8,7 @@ import { AutoCompleteProps } from './autoComplete';
 import AutoComplete from './index';
 
 const Com: ComponentMeta<typeof AutoComplete> = {
-  title: 'AutoComplete',
+  title: 'Components/AutoComplete',
   component: AutoComplete,
   decorators: [(Story) => <div style={{ width: 350, marginBottom: 140 }}>{Story()}</div>],
 };

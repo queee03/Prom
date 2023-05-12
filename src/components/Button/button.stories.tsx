@@ -4,7 +4,7 @@ import mdx from './button.mdx';
 import Button from './index';
 
 const Com: ComponentMeta<typeof Button> = {
-  title: 'Button',
+  title: 'Components/Button',
   component: Button,
   argTypes: {},
   parameters: {
