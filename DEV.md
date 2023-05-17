@@ -91,23 +91,29 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 用于在不暴露 `webpack` 配置的前提下完成自定义配置
 
+### `eslint`
+
+代码规范管理
+
+### `prettier`
+
+代码规范管理
+
 ### `jest`
 
-`create-react-app` 内置 `jest` 并为其做了基础配置，所以我们不用关心 `jest` 对 ts 的适配；也因此 `jest.config.js` 文件配置默认不会生效，如果在命令行中加上 `-- --config=jest.config.js` 强制启用则会完全覆盖默认配置；官方建议的配置方式是在 `package.json` 中添加配置。
-
-#### 相关文档
+通用测试框架
 
 - [running tests](https://create-react-app.dev/docs/running-tests)
 - [configuration](https://create-react-app.dev/docs/running-tests/#configuration)
-
-#### issues
-
-- [引入 axios 报错](https://stackoverflow.com/questions/73958968/cannot-use-import-statement-outside-a-module-with-axios)
 
 ### `@testing-library`
 
 [React Testing Library](https://create-react-app.dev/docs/running-tests/#react-testing-library)
 用于组件测试
+
+### `storybook`
+
+文档
 
 ### `@fortawesome`
 
@@ -117,10 +123,14 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 辅助动画组件（本身不含任何动画效果）
 
-### `storybook`
+### `cross-env`
 
-文档
+运行跨平台设置的和使用 Node 环境变量的脚本
 
 ### `rimraf`
 
 跨平台命令行，用于删除文件
+
+### `husky`
+
+用于 git 仓库提交前的钩子工具
