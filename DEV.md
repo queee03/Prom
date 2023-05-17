@@ -133,4 +133,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### `husky`
 
-用于 git 仓库提交前的钩子工具
+用于 git 仓库提交前执行命令的钩子工具
