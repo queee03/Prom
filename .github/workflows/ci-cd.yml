@@ -20,6 +20,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      # npm ci 和 npm install 不同的地方是，npm ci 会忽略 package.json 中的版本范围，只安装 package-lock.json 中指定的精确版本。
+      # npm ci 更适合用于持续集成或自动化部署等场景，这些场景需要确保每次安装的依赖都是一致的，并且需要尽可能地避免意外情况的发生；
+      # 而 npm install 则更适合用于开发环境或本地部署等场景，这些场景不需要对项目环境做出太多限制，而且通常会频繁地更新依赖。
       - run: npm ci # 用于安装项目的依赖项
       - run: npm run test:nowatch
       - run: npm run build
