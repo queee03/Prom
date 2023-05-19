@@ -1,4 +1,4 @@
-name: Deploy Storybook to Pages
+name: Deploy Storybook
 
 on:
   # Runs on pushes targeting the default branch
@@ -37,10 +37,12 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload Storybook to Static Site
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v1 # 上传构建产物到 Github Acitons 的产物仓库
         with:
           name: storybook
           path: storybook-static
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v2 # 将构建产物部署到 GitHub Pages
+        with:
+          path: storybook-static

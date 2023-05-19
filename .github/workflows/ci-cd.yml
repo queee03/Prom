@@ -1,4 +1,4 @@
-name: CI/CD # 工作流名称
+name: Test Build Publish # 工作流名称
 
 on:
   push:
