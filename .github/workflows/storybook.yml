@@ -44,5 +44,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2 # 将构建产物部署到 GitHub Pages
-        with:
-          path: storybook-static
