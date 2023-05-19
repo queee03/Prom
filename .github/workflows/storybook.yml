@@ -39,6 +39,7 @@ jobs:
       - name: Upload Storybook to Static Site
         uses: actions/upload-pages-artifact@v1 # 上传构建产物到 Github Acitons 的产物仓库
         with:
+          # name: storybook # 加了这个 name 会导致 actions/deploy-pages 失败, 待研究
           path: storybook-static
       - name: Deploy to GitHub Pages
         id: deployment
