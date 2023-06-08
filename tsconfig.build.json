@@ -11,7 +11,8 @@
     "moduleResolution": "node",
     "declaration": true,
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "include": ["src"],
   "exclude": [
@@ -19,6 +20,7 @@
     "build",
     "dist",
     "node_modules",
+    "src/stories",
     "src/**/*.test.tsx",
     "src/**/*.stories.tsx"
   ]

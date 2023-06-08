@@ -1,3 +1,5 @@
+import './styles/index.scss';
+
 export { default as AutoComplete } from './components/AutoComplete';
 export { default as Button } from './components/Button';
 export { default as Form } from './components/Form';

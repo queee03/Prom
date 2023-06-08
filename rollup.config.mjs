@@ -3,6 +3,8 @@ import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
 
+import sass from 'rollup-plugin-sass';
+
 export default {
   input: 'src/index.ts',
   output: {
@@ -15,5 +17,8 @@ export default {
     commonjs(),
     json(),
     typescript({ tsconfig: './tsconfig.build.json' }),
+    sass({
+      output: 'dist/index.css',
+    }),
   ],
 };
