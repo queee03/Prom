@@ -1,6 +1,7 @@
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
 import excludeDependenciesFromBundle from 'rollup-plugin-exclude-dependencies-from-bundle';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
@@ -48,6 +49,12 @@ export default [
       },
     },
     external: ['react', 'react-dom', 'axios'], // 针对 umd，仅排除几个常用的依赖库，让用户自己引入
-    plugins: [...commonConfig.plugins, terser()],
+    plugins: [
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      }),
+      ...commonConfig.plugins,
+      terser(),
+    ],
   },
 ];

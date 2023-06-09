@@ -1,6 +1,6 @@
 {
   "name": "prom-ui",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": false,
   "description": "React components library",
   "author": "Kuku",
@@ -74,6 +74,7 @@
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-replace": "^5.0.2",
     "@storybook/addon-actions": "^6.5.16",
     "@storybook/addon-essentials": "^6.5.16",
     "@storybook/addon-interactions": "^6.5.16",
