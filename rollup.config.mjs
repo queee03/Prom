@@ -47,6 +47,7 @@ export default [
         'react-dom': 'ReactDOM',
         axios: 'Axios',
       },
+      plugins: [terser()],
     },
     external: ['react', 'react-dom', 'axios'], // 针对 umd，仅排除几个常用的依赖库，让用户自己引入
     plugins: [
@@ -54,7 +55,6 @@ export default [
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
       ...commonConfig.plugins,
-      terser(),
     ],
   },
 ];
