@@ -1,7 +1,9 @@
 import { useReducer, useState } from 'react';
 
 import Schema, { RuleItem, Rules, ValidateError } from 'async-validator';
-import { each, mapValues } from 'lodash';
+// import { each, mapValues } from 'lodash';
+import each from 'lodash/each';
+import mapValues from 'lodash/mapValues';
 
 // async-validator 验证不通过时默认返回的 error 类型
 export interface ValidateCatchError extends Error {
